@@ -1,0 +1,55 @@
+version: "3.7"
+services:
+  db:
+    image: bitnami/mysql:8.0
+    networks:
+      net_befit:
+        aliases:
+          - db
+    volumes:
+      - db:/bitnami/mysql/data
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "root", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=befit
+      - MYSQL_REPLICATION_MODE=master
+      - MYSQL_REPLICATION_USER=repl_user
+      - MYSQL_REPLICATION_PASSWORD=repl_password
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    networks:
+      net_befit:
+    depends_on:
+      - db
+    ports:
+      - 8080:80
+  laravel:
+    image: felipe89/php8.1:v1.1
+    networks:
+      net_befit:
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/var/www/html
+      - ./storage/logs:/var/logs
+      - vendor:/var/www/html/vendor
+      - composer_cache:/tmp/composer
+    ports:
+      - 80:80
+    command: >
+      sh -c 'composer install
+      && rm -Rf public/storage || true && php artisan storage:link
+      && (php artisan queue:work &)
+      && php artisan serve --host=0.0.0.0 --port=80'
+volumes:
+  db:
+  vendor:
+  composer_cache:
+
+networks:
+  net_befit:
