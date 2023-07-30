@@ -5,7 +5,6 @@
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
                 <!-- Aquí colocamos el logo o imagen -->
-                <img src="{{ asset('ruta/al/logo.png') }}" alt="Logo" style="max-width: 200px;">
 
                 <h2 class="mt-4">¡Bienvenido, {{ Auth::user()->name }}!</h2>
                 <p>¡Gracias por visitar nuestra página de inicio!</p>

@@ -22,23 +22,29 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        // dd(Auth::attempt($credentials));
+        // dd(Auth::attempt($credentials));
 
         if (Auth::attempt($credentials)) {
             // La autenticación ha sido exitosa
-            return redirect('/welcome');
+            return view('welcome');
         }
+        // dd("ho");
 
         // La autenticación ha fallado
-        return redirect()->route('login')->with('error', 'Credenciales inválidas');
+        // return redirect()->route('login')->with('error', 'Credenciales inválidas');
+        return redirect()->back()->withInput()->withErrors(['message' => 'Credenciales inválidas']);
     }
     public function welcome()
     {
         return view('welcome');
     }
-    // protected function authenticated()
-    // {
-    //     return redirect('/welcome');
-    // }
+   protected function authenticated(Request $request, $user)
+    {
+        dd("ho");
+
+        return redirect()->route('welcome');
+    }
 
 
 }

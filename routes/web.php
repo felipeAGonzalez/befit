@@ -15,15 +15,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-// Route::get('/welcome', function () {
-//     return view('welcome');
-// });
-Route::post('/login', [LoginController::class, 'login']);
-Route::middleware('auth')->group(function () {
 
-    Route::post('/welcome', [LoginController::class, 'welcome']);
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/', function () {
+        if (Auth::check()) {
+            return redirect()->route('welcome');
+        } else {
+            return view('auth.login');
+        }
+    });
+});
+Route::group(['middleware'=>['auth']],function () {
+
+                Route::get('/welcome', function () {
+                            return view('welcome');
+                        })->name('welcome');
+
     //rutas usuario
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
@@ -33,4 +44,3 @@ Route::middleware('auth')->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
