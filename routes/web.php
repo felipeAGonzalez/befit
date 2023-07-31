@@ -2,6 +2,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+Route::get('/password/reset', [LogoutController::class, 'logout'])->name('logout');
 
-
+Route::get('/password/reset', [ResetPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', function () {
         if (Auth::check()) {
@@ -43,4 +48,7 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+
+
 });

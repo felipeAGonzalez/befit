@@ -1,58 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="frame">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <!-- <div class="card-header">{{ __('Iniciar sesión') }}</div> -->
-                    <div class="nav">
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="{{asset('logos/befit.png')}}"
+          class="img-fluid" alt="Sample image">
+      </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <form method="POST" action="{{ route('login') }}" name="form">
+            @csrf
+            <div class="form-outline mb-4">
+                <input type="email" id="form3Example3" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror"
+                placeholder="Ingrese Email" />
 
-                        <!-- <form method="POST" action="{{ route('login') }}"> -->
-                            <!-- <div class="form-group row">
-                                <label for="email" class="col-md-4 col-form-label text-md-right"></label>
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right"></label>
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary"> -->
-                                        <form class="form-signin"  method="POST" action="{{ route('login') }}" name="form">
-                                        @csrf
-                                        <h1>{{__('Iniciar Sesión')}}</h1>
-                                        <label for="username">{{ __('E-Mail') }}</label>
-                                        <input class="form-styling" type="email" name="email" placeholder=""/>
-                                        <label for="password">{{ __('Contraseña') }}</label>
-                                        <input class="form-styling" type="password" name="password" placeholder=""/>
-                                        <div class="btn-animate">
-                                        <button type="submit" class="btn-signin">
-                                            {{ __('Ingresar') }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
+            <div class="form-outline mb-3">
+                <input type="password" name="password" id="form3Example4" class="form-control form-control-lg @error('password') is-invalid @enderror"
+                placeholder="Ingrese Contraseña" />
+
+            </div>
+
+            @if ($errors->any())
+                <div class="alert2 alert2-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ __($error) }}<br></li>
+                        @endforeach
+                        </ul>
+                    </div>
+            @endif
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{{ route('password.request') }}" class="text-body">¿Olvidaste la contraseña?</a>
+            </div>
+
+            <div class="text-center text-lg-start mt-4 pt-2">
+                <button type="submit" class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+            </div>
+            </form>
         </div>
     </div>
+  </div>
 
+</section>
 @endsection
