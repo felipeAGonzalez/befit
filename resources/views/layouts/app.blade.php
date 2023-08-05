@@ -26,6 +26,10 @@
                <a class="nav-link" href="{{ url('/') }}">Inicio<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
+               <a class="nav-link" href="{{ url('/clients') }}">Clientes</a>
+            </li>
+            <li class="nav-item">
+            <li class="nav-item">
                <a class="nav-link" href="{{ url('/users') }}">Usuarios</a>
             </li>
             <li class="nav-item">
