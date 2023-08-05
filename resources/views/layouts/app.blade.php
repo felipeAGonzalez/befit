@@ -28,6 +28,9 @@
             <li class="nav-item">
                <a class="nav-link" href="{{ url('/users') }}">Usuarios</a>
             </li>
+            <li class="nav-item">
+               <a class="nav-link" href="{{ url('/products') }}">Productos</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown03">

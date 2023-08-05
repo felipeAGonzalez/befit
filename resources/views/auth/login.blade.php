@@ -32,7 +32,7 @@
                     </div>
             @endif
             <div class="d-flex justify-content-between align-items-center">
-                <a href="{{ route('password.request') }}" class="text-body">¿Olvidaste la contraseña?</a>
+                <a href="{{ route('password.reset') }}" class="text-body">¿Olvidaste la contraseña?</a>
             </div>
 
             <div class="text-center text-lg-start mt-4 pt-2">

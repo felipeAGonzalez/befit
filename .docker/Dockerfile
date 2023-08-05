@@ -9,6 +9,8 @@ COPY . /var/www/html
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
+COPY --from=composer:2.2.0 /usr/bin/composer /usr/bin/composer
+
 # Expone el puerto 80 para que puedas acceder a la aplicación web
 EXPOSE 80
 

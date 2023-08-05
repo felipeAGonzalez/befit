@@ -22,17 +22,10 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        // dd(Auth::attempt($credentials));
-        // dd(Auth::attempt($credentials));
-
         if (Auth::attempt($credentials)) {
-            // La autenticación ha sido exitosa
             return view('welcome');
         }
-        // dd("ho");
 
-        // La autenticación ha fallado
-        // return redirect()->route('login')->with('error', 'Credenciales inválidas');
         return redirect()->back()->withInput()->withErrors(['message' => 'Credenciales inválidas']);
     }
     public function welcome()

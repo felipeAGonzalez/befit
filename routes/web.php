@@ -1,8 +1,9 @@
 <?php
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ResetOtherController as Reset;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
-Route::get('/password/reset', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/password/reset', [ResetPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('/password/email', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('/reset/password', [Reset::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset/password', [Reset::class, 'reset']);
+
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', function () {
         if (Auth::check()) {
@@ -50,5 +49,19 @@ Route::group(['middleware'=>['auth']],function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
 
+    // Rutas para listar y crear productos
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    
+    // Rutas para mostrar, editar y actualizar un producto específico
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    
+    // Ruta para eliminar un producto
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    
 
 });
+
