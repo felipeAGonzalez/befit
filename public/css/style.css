@@ -20,6 +20,13 @@ html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
 .alert2 li {
     list-style-type: disc;
 }
+img {
+    max-width: 50%;
+    height: auto;
+    margin: 5px;
+    border: 10px solid #ddd;
+    border-radius: 15px;
+}
 
 body {
   background:

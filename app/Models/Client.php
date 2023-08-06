@@ -1,13 +1,21 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    // Especifica el nombre de la tabla si es diferente a 'clients'
     protected $table = 'client';
+    protected $casts = [
+        'birth_date' => 'date',
+    ];
+    protected $fillable = [ 'name','last_name','last_name_two','email','birth_date','photo',];
 
-    // Especifica los campos que pueden ser llenados masivamente
-    protected $fillable = ['key', 'name', 'category', 'unit_prize', 'sell_price', 'cantidad'];
+
+    public function clientDate()
+    {
+        return $this->hasOne('App\Models\ClientDate', 'client_id');
+    }
+
 }

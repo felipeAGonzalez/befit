@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('last_name_two');
             $table->string('email');
             $table->date('birth_date');
+            $table->string('photo')->nullable();
+            $table->unique(['name', 'last_name','email'], 'client_unique')->comment = 'Indice (unique) de los campos name y last_name, para que no existan tuplas duplicadas.';
             $table->timestamps();
         });
     }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->bigInteger('client_id')->unsigned()->index()->comment = 'Identificador de la tabla cliente';
             $table->foreign('client_id')->references('id')->on('client');
             $table->date('date_entry');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }
