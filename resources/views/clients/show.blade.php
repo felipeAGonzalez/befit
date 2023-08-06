@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <td><img src="{{$client->photo ? asset('photo/$client->photo'):asset('default/no-photo-m.png')}}" alt="Imagen de Ejemplo" class="img-fluid">{{ $client->photo}}</td>
+                        <td><img src="{{$client->photo ? asset($client->photo):asset('default/no-photo-m.png')}}" alt="Imagen de Ejemplo" class="img-fluid"></td>
                     </div>
                     <div class="col-md-8">
                         <h4>{{ $client->name }} {{ $client->last_name }} {{ $client->last_name_two }}</h4>
@@ -32,7 +32,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <td><img src="{{$client->photo ? asset('photo/$client->photo'):asset('default/no-photo-m.png')}}" alt="Imagen de Ejemplo" class="img-fluid">{{ $client->photo}}</td>
+                    <td><img src="{{$client->photo ? asset($client->photo):asset('default/no-photo-m.png')}}" alt="Imagen de Ejemplo" class="img-fluid"></td>
                     </div>
                     <div class="col-md-8">
                         <h4>{{ $client->name }} {{ $client->last_name }} {{ $client->last_name_two }}</h4>

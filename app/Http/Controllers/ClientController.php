@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\ClientDate;
+use App\Utils;
 use Throwable;
 
 class ClientController extends Controller
@@ -28,10 +29,13 @@ class ClientController extends Controller
                 'last_name_two' => 'string|max:255',
                 'email' => 'nullable|email',
                 'birth_date' => 'date',
-                'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'date_entry' => 'required|date',
             ]);
-            $client=Client::create($request->all());
+            $client=$request->all();
+            $client['photo'] = Utils::saveImage($request->file('photo'));
+            // dd($client);
+            $client=Client::create($client);
             ClientDate::create(['client_id'=>$client->id,'date_entry'=>$request->all()['date_entry']]);
             return redirect()->route('clients.index')->with('success', 'Cliente dado de alta exitosamente');
         } catch (Throwable $th) {
@@ -40,7 +44,7 @@ class ClientController extends Controller
                         return redirect()->back()->withInput()->withErrors(['message' => 'Usuario Duplicado']);
                     break;
                 default:
-                        return $this->response($th);
+                        return redirect()->back()->withInput()->withErrors(__($th->getMessage()));
                     break;
             }
         }
@@ -71,9 +75,14 @@ class ClientController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'date_entry' => 'nullable|date',
         ]);
-
+        $query=$request->all();
         $client = Client::findOrFail($id);
-        $client->update($request->all());
+
+        if ($request->hasFile('photo')) {
+            Utils::deleteImage($client->photo);
+            $query['photo'] = Utils::saveImage($request->file('photo'));
+        }
+        $client->update($query);
         if ($request->date_entry) {
             $clientDate = ClientDate::where('client_id',$id)->first();
             $clientDate->update(['date_entry'=>$request->date_entry]);

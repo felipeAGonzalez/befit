@@ -21,7 +21,7 @@
             <tbody>
                 @foreach($clients as $client)
                     <tr>
-                        <td><img src="{{$client->photo ? asset('photo/$client->photo'):asset('default/no-photo-m.png')}}" alt="Imagen de Ejemplo">{{ $client->photo}}</td>
+                        <td><img src="{{$client->photo ? asset($client->photo):asset('default/no-photo-m.png')}}" alt="Foto Cliente"></td>
                         <td>{{ $client->name}}</td>
                         <td>{{ $client->last_name}}</td>
                         <td>{{ $client->last_name_two}}</td>
