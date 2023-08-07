@@ -13,7 +13,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
+        <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-xl">
    <div class="container">
       <a class="navbar-brand" href="{{ url('/') }}">Befit Sport Gym</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleCenteredNav" aria-controls="navbarsExampleCenteredNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +29,8 @@
                <a class="nav-link" href="{{ url('/clients') }}">Clientes</a>
             </li>
             <li class="nav-item">
+               <a class="nav-link" href="{{ url('/services') }}">Servicios</a>
+            </li>
             <li class="nav-item">
                <a class="nav-link" href="{{ url('/users') }}">Usuarios</a>
             </li>
