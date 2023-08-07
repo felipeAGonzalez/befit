@@ -94,6 +94,7 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
+        Utils::deleteImage($client->photo);
         return redirect()->route('clients.index')->with('success', 'Cliente eliminado exitosamente');
     }
 }

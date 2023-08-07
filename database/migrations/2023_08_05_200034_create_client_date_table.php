@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('client_date', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('client_id')->unsigned()->index()->comment = 'Identificador de la tabla cliente';
-            $table->foreign('client_id')->references('id')->on('client');
+            $table->foreign('client_id')->references('id')->on('client')->onDelete('cascade');
             $table->date('date_entry');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
