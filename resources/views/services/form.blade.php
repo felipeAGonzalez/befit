@@ -20,8 +20,6 @@
                         <input type="text" class="form-control" id="name" name="name" value="{{ isset($service) ? $service->name : old('name') }}">
                     </div>
                     <div class="form-group">
-                        <!-- <label for="category">Categoría:</label> -->
-                        <!-- <input type="text" class="form-control" id="category" name="category" value="{{ isset($service) ? $service->category : old('category') }}"> -->
 
                         <label for="category">Seleccione una Categoría:</label>
                         <select name="category" id="category">

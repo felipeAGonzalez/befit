@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('key')->unique();
             $table->string('name');
             $table->string('category');
-            $table->double('unit_prize');
+            $table->double('unit_price');
             $table->double('sell_price');
             $table->integer('amount');
             $table->timestamps();

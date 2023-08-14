@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('name');
-            $table->string('category');
-            $table->integer('days');
-            $table->double('sell_price');
+            $table->bigInteger('client_id')->nullable()->unsigned()->index()->comment = 'Identificador de la tabla clients';
+            $table->foreign('client_id')->references('id')->on('client')->onDelete('cascade');
+            $table->date('sale_date');
+            $table->double('total');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('sales');
     }
 };

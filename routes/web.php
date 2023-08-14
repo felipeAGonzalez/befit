@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,11 @@ Route::group(['middleware'=>['auth']],function () {
     Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
 
     Route::resource('services', ServiceController::class)->except(['show']);
+
+    Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
+    Route::get('/sales/new', [SaleController::class, 'create'])->name('sales.create');
+    Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
+    Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
 
 });
 

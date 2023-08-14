@@ -11,6 +11,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Categoría</th>
                     <th scope="col">Días</th>
+                    <th scope="col">Costo</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -25,7 +26,7 @@
                         <td>{{ $service->name}}</td>
                         <td>{{ $service->category}}</td>
                         <td>{{ $service->days}}</td>
-                        <td>{{ number_format($service->price,2)}}</td>
+                        <td>$ {{ number_format($service->price,2)}}</td>
                         <td>
                             <a href="{{ route('services.edit', $service->id) }}" class="btn btn-primary">Editar</a>
                             <form action="{{ route('services.destroy', $service->id) }}" method="POST" style="display: inline-block;">
