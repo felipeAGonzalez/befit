@@ -21,8 +21,22 @@
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
                         <th>Subtotal</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
+                <div class="row mt-4" id="assignButton">
+                    <div class="col-md-6">
+                        <button id="showClient" class="btn btn-info">Asignar a Cliente</button>
+                    </div>
+                </div>
+
+                <div class="row mt-4" id="assignClient" style="display: none;">
+                    <div class="col-md-6">
+                        <label><strong>Asignar la venta a un cliente</strong></label><br>
+                        <input type="text" class="form-control client-key"  id="inputClient" placeholder="Clave del cliente">
+                    </div>
+                </div>
+                <br>
                 <tbody id="ListTable">
                 </tbody>
                 <tfoot>
@@ -37,11 +51,9 @@
 
     <div class="row mt-4">
         <div class="col-md-12">
-            <!-- Formulario de Cobro y Registro en BD -->
             <form id="formularioVenta" action="{{ route('sales.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="elementsSold" id="productsJSON">
-                <!-- Agregar más campos relacionados con la venta si es necesario -->
                 <button type="submit" class="btn btn-primary">Realizar Cobro</button>
             </form>
         </div>
@@ -53,6 +65,13 @@
 </div>
 
 <script>
+
+    document.getElementById('showClient').addEventListener('click', function() {
+    var divB = document.getElementById('assignButton');
+    var div = document.getElementById('assignClient');
+    div.style.display = 'block';
+    divB.style.display = 'none';
+});
     $(document).ready(function() {
         function mostrarProductosEnTabla(elements) {
             const ListTable = document.getElementById('ListTable');
@@ -60,28 +79,35 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                 <td style="display: none;"><span class="id">${element.id}</span></td>
+                <td style="display: none;"><span class="category">${element.category}</span></td>
                 <td>${element.name}</td>
                 <td><span class="qty">1</span></td>
                 <td>$${element.sell_price.toFixed(2)}</td>
                 <td>$<span class="subtotal">${element.sell_price.toFixed(2)}</span></td>
+                <td><i class="fas fa-times delete-element red-icon"></i></td>
                 `;
-
                 ListTable.appendChild(row);
             });
 
-            // Calcular y actualizar el total al cargar la página
             let total = 0;
             $('.subtotal').each(function() {
                 total += parseFloat($(this).text());
             });
             $('#total').text(total.toFixed(2));
         }
+        $('#ListTable').on('click', '.delete-element', function() {
+        const fila = $(this).closest('tr');
+        const subtotal = parseFloat(fila.find('.subtotal').text());
+        fila.remove();
 
+        let total = parseFloat($('#total').text());
+        total -= subtotal;
+        $('#total').text(total.toFixed(2));
+    });
         $('#seeker').on('keydown', function(event) {
             const key = $(this).val();
 
             if (event.key === "Enter") {
-                // Realizar una solicitud AJAX para buscar productos
                 $.ajax({
                     url: '{{ route('element.search') }}',
                     method: 'GET',
@@ -109,17 +135,27 @@
 
     $('#ListTable tr').each(function() {
         const id = parseInt($(this).find('.id').text());
-        const qty = parseFloat($(this).find('.qty').text()); // Usar text() para obtener el contenido del span
+        const category = String($(this).find('.category').text());
+        const qty = parseFloat($(this).find('.qty').text());
         const subtotal = parseFloat($(this).find('.subtotal').text());
-        sellProduct.push({ id, qty, subtotal });
-    });
+        let clientKey = '';
+        const categories = [
+            'Anual',
+            'Semestral',
+            'Mensual',
+            'Semanal',
+            'Visita',
+            'Paquete Por Visitas'
+        ];
 
+        if (categories.includes(category)) {
+            clientKey = parseInt($('#inputClient').val());
+        }
+        sellProduct.push({ id, clientKey, category, qty, subtotal });
+    });
     const productsJSON = JSON.stringify(sellProduct);
 
-    // Establecer el valor del campo oculto con el JSON
     $('#productsJSON').val(productsJSON);
-
-    // Enviar el formulario manualmente
     this.submit();
 });
 

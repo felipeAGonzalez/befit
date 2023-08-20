@@ -27,7 +27,15 @@ img {
     border: 10px solid #ddd;
     border-radius: 15px;
 }
-
+.red-icon {
+    color: red;
+    font-size: 30px;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+}
 body {
   background:
     linear-gradient(
