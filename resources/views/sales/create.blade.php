@@ -76,19 +76,28 @@
         function mostrarProductosEnTabla(elements) {
             const ListTable = document.getElementById('ListTable');
             elements.forEach(element => {
+            const productoExistente = $(`.id[data-id="${element.id}"]`);
+
+            if (productoExistente.length > 0) {
+                const qty = parseFloat(productoExistente.closest('tr').find('.qty').text());
+                const nuevaCantidad = qty + 1;
+                productoExistente.closest('tr').find('.qty').text(nuevaCantidad);
+                const nuevoSubtotal = nuevaCantidad * element.sell_price;
+                productoExistente.closest('tr').find('.subtotal').text(nuevoSubtotal.toFixed(2));
+            } else {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                <td style="display: none;"><span class="id">${element.id}</span></td>
-                <td style="display: none;"><span class="category">${element.category}</span></td>
-                <td>${element.name}</td>
-                <td><span class="qty">1</span></td>
-                <td>$${element.sell_price.toFixed(2)}</td>
-                <td>$<span class="subtotal">${element.sell_price.toFixed(2)}</span></td>
-                <td><i class="fas fa-times delete-element red-icon"></i></td>
+                    <td style="display: none;"><span class="id" data-id="${element.id}">${element.id}</span></td>
+                    <td><span class="name">${element.name}</span></td>
+                    <td style="display: none;"><span class="category">${element.category}</span></td>
+                    <td><span class="qty">1</span></td>
+                    <td>$${element.sell_price.toFixed(2)}</td>
+                    <td>$<span class="subtotal">${element.sell_price.toFixed(2)}</span></td>
+                    <td><i class="fas fa-times delete-element red-icon"></i></td>
                 `;
                 ListTable.appendChild(row);
-            });
-
+            }
+        });
             let total = 0;
             $('.subtotal').each(function() {
                 total += parseFloat($(this).text());
@@ -96,14 +105,14 @@
             $('#total').text(total.toFixed(2));
         }
         $('#ListTable').on('click', '.delete-element', function() {
-        const fila = $(this).closest('tr');
-        const subtotal = parseFloat(fila.find('.subtotal').text());
-        fila.remove();
+            const fila = $(this).closest('tr');
+            const subtotal = parseFloat(fila.find('.subtotal').text());
+            fila.remove();
 
-        let total = parseFloat($('#total').text());
-        total -= subtotal;
-        $('#total').text(total.toFixed(2));
-    });
+            let total = parseFloat($('#total').text());
+            total -= subtotal;
+            $('#total').text(total.toFixed(2));
+        });
         $('#seeker').on('keydown', function(event) {
             const key = $(this).val();
 
@@ -129,35 +138,37 @@
             $('#mensajeNoEncontrado').text('Producto no encontrado').fadeIn().delay(2000).fadeOut();
         }
         $('#formularioVenta').submit(function(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    const sellProduct = [];
+            const sellProduct = [];
 
-    $('#ListTable tr').each(function() {
-        const id = parseInt($(this).find('.id').text());
-        const category = String($(this).find('.category').text());
-        const qty = parseFloat($(this).find('.qty').text());
-        const subtotal = parseFloat($(this).find('.subtotal').text());
-        let clientKey = '';
-        const categories = [
-            'Anual',
-            'Semestral',
-            'Mensual',
-            'Semanal',
-            'Visita',
-            'Paquete Por Visitas'
-        ];
+            $('#ListTable tr').each(function() {
+                const id = parseInt($(this).find('.id').text());
+                const name = String($(this).find('.name').text());
+                const category = String($(this).find('.category').text());
+                const qty = parseFloat($(this).find('.qty').text());
+                const subtotal = parseFloat($(this).find('.subtotal').text());
+                let clientKey = null;
+                const categories = [
+                    'Anual',
+                    'Semestral',
+                    'Mensual',
+                    'Semanal',
+                    'Visita',
+                    'Paquete Por Visitas'
+                ];
 
-        if (categories.includes(category)) {
-            clientKey = parseInt($('#inputClient').val());
-        }
-        sellProduct.push({ id, clientKey, category, qty, subtotal });
-    });
-    const productsJSON = JSON.stringify(sellProduct);
+                if (categories.includes(category)) {
+                    console.log('if');
+                    clientKey = parseInt($('#inputClient').val());
+                }
+                sellProduct.push({ id, clientKey, name, category, qty, subtotal });
+            });
+            const productsJSON = JSON.stringify(sellProduct);
 
-    $('#productsJSON').val(productsJSON);
-    this.submit();
-});
+            $('#productsJSON').val(productsJSON);
+            this.submit();
+        });
 
 
     });

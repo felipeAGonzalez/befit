@@ -9,15 +9,15 @@
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
-            <th>Cliente</th>
-            <th>Producto</th>
+            <th>Fecha de venta</th>
+            <th>Total</th>
             <!-- Agrega más columnas aquí -->
         </tr>
         @foreach($sales as $sale)
         <tr>
             <td>{{ $sale->id }}</td>
-            <td>{{ $sale->cliente }}</td>
-            <td>{{ $sale->producto }}</td>
+            <td>{{ $sale->sale_date }}</td>
+            <td>{{ $sale->total }}</td>
             <!-- Mostrar más atributos aquí -->
         </tr>
         @endforeach

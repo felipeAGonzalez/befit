@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sale;
+use App\Models\SaleDetail;
+use App\Models\ClientDate;
 use App\Models\Service;
 use App\Models\Product;
 
@@ -30,17 +32,39 @@ class SaleController extends Controller
     }
     public function store(Request $request)
     {
+        $sellElements = collect(json_decode($request->all()['elementsSold'],true));
 
-        \Log::info($request->all()['elementsSold']);
-
-        // Aquí puedes validar y guardar la venta en la base de datos
-        // $venta = new Sale();
-        // $venta->cliente = $request->input('cliente');
-        // $venta->producto = $request->input('producto');
-        // ...
-        // $venta->save();
-
-        // return redirect()->route('sale.index')->with('success', 'Venta registrada exitosamente.');
+        $filtered = $sellElements->whereNotNull("clientKey")->first();
+        $total=$sellElements->sum('subtotal');
+        $sale =Sale::create([
+            'client_id'=> $filtered ? $filtered['clientKey'] : null,
+            'sale_date'=>now(),
+            'total'=>$total
+        ]);
+        foreach ($sellElements as $key => $value) {
+            $saleDetail=[
+                'sale_id'=>$sale->id,
+                'amount'=>$value['qty'],
+                'category'=>$value['category'],
+                'price'=>$value['subtotal'],
+            ];
+            $value['clientKey'] ? $saleDetail['service_id'] = $value['id'] :  $saleDetail['product_id']=$value['id'];
+            $value['clientKey'] ? $saleDetail['description'] = 'Venta de servicio' :  $saleDetail['description']='Venta de producto';
+            SaleDetail::create($saleDetail);
+            $product=Product::where(['id'=>$value['id']])->first();
+            if ($product) {
+                $product->amount -= $value['qty'];
+                $product->save();
+            }
+        }
+        $service = Service::where(['id'=>$filtered['id']])->first();
+        $clientDate = ClientDate::where(['client_id'=>$filtered['clientKey']])->first();
+        $date = now();
+        $endDate = $date->addDays($service->days)->format('Y-m-d');
+        $clientDate->start_date=$date;
+        $clientDate->end_date=$endDate;
+        $clientDate->save();
+        return redirect()->route('sales.index')->with('success', 'Venta registrada exitosamente.');
     }
 }
 
