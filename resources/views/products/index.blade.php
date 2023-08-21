@@ -24,7 +24,7 @@
                         <td>{{ $product->key }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category }}</td>
-                        <td>{{ $product->unit_prize }}</td>
+                        <td>{{ $product->unit_price }}</td>
                         <td>{{ $product->sell_price }}</td>
                         <td>{{ $product->amount }}</td>
                         <td>

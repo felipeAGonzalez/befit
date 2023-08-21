@@ -24,7 +24,7 @@ class ProductController extends Controller
         $product->key = $request->input('key');
         $product->name = $request->input('name');
         $product->category = $request->input('category');
-        $product->unit_prize = $request->input('unit_prize');
+        $product->unit_price = $request->input('unit_price');
         $product->sell_price = $request->input('sell_price');
         $product->amount = $request->input('amount');
         $product->save();
@@ -48,7 +48,7 @@ class ProductController extends Controller
         $product->key = $request->input('key');
         $product->name = $request->input('name');
         $product->category = $request->input('category');
-        $product->unit_prize = $request->input('unit_prize');
+        $product->unit_price = $request->input('unit_price');
         $product->sell_price = $request->input('sell_price');
         $product->amount = $request->input('amount');
         $product->save();

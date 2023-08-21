@@ -22,8 +22,8 @@
                 <input type="text" name="category" id="category" class="form-control" value="{{ old('category', isset($product) ? $product->category : '') }}" required>
             </div>
             <div class="form-group">
-                <label for="unit_prize">Precio Unitario:</label>
-                <input type="number" name="unit_prize" id="unit_prize" class="form-control" value="{{ old('unit_prize', isset($product) ? $product->unit_prize : '') }}" step="0.01" required>
+                <label for="unit_price">Precio Unitario:</label>
+                <input type="number" name="unit_price" id="unit_price" class="form-control" value="{{ old('unit_price', isset($product) ? $product->unit_price : '') }}" step="0.01" required>
             </div>
             <div class="form-group">
                 <label for="sell_price">Precio de Venta:</label>
