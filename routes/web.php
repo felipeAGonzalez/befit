@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,6 +76,9 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/sales/new', [SaleController::class, 'create'])->name('sales.create');
     Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
     Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
+
+    Route::resource('categories', CategoryController::class);
+
 
 });
 

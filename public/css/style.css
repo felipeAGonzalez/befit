@@ -1,5 +1,23 @@
 html, body * { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
-/* Estilos para el mensaje de alerta */
+body {
+    background: #f2f2f2;
+  }
+
+  .navbar .nav-item:not(:last-child) {
+    margin-right: 35px;
+  }
+
+  .dropdown-toggle::after {
+     transition: transform 0.15s linear;
+  }
+
+  .show.dropdown .dropdown-toggle::after {
+    transform: translateY(3px);
+  }
+
+  .dropdown-menu {
+    margin-top: 0;
+  }
 .alert2 {
     padding: 15px;
     border: 1px solid transparent;
@@ -97,4 +115,3 @@ li {
   padding-right: 10px;
   color: #ffffff;
 }
-
