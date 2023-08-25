@@ -11,6 +11,7 @@
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Turno</th>
+                <th>Cargo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -20,7 +21,8 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->shift }}</td>
+                    <td>{{ __('web.'.$user->shift) }}</td>
+                    <td>{{ __('web.'.$user->position) }}</td>
                     <td>
                         <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">Ver</a>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Editar</a>

@@ -13,15 +13,32 @@
                 <input type="text" name="name" id="name" class="form-control" value="{{ old('name', isset($user) ? $user->name : '') }}">
             </div>
             <div class="form-group">
-
+            <label for="subsidiary_id">Seleccione una Sucursal:</label>
+            <select name="subsidiary_id" class="form-select" id="subsidiary_id">
+                <option value="" default>Seleccione una opción</option>
+                    @foreach($subsidiary as $key => $value)
+                        <option value="{{ isset($user) ? $user->subsidiary->name : $value->id }}">{{ $value->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                             <label for="shift">Seleccione un turno:</label>
-                            <select name="shift" id="shift">
-                                <option default>--Seleccione una opción--</option>
-                                <option>Matutino</option>
-                                <option>Vespertino</option>
+                            <select name="shift" class="form-select" id="shift">
+                                <option default>Seleccione una opción</option>
+                                <option value='none'>No aplica</option>
+                                <option value='Morning'>Matutino</option>
+                                <option value='Afternoon'>Vespertino</option>
                             </select>
                         </div>
-
+            <div class="form-group">
+                <label for="position">Seleccione un cargo:</label>
+                <select name="position" class="form-select" id="position">
+                <option value=""default>Seleccione una opción</option>
+                        @foreach($position as $key => $value)
+                            <option value="{{ isset($user) ? $user->position : $key }}">{{ $value }}</option>
+                        @endforeach
+                    </select>
+            </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email', isset($user) ? $user->email : '') }}">

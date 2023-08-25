@@ -19,6 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'subsidiary_id',
+        'position',
         'shift',
         'email',
         'password',
@@ -43,4 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function subsidiary()
+    {
+        return $this->belongsTo('App\Models\Subsidiary', 'subsidiary_id');
+    }
 }

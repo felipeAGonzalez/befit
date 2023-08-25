@@ -35,12 +35,15 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $sellElements = collect(json_decode($request->all()['elementsSold'],true));
-
+        $user = Auth::user();
         $filtered = $sellElements->whereNotNull("clientKey")->first();
         $total=$sellElements->sum('subtotal');
+
         $sale =Sale::create([
             'client_id'=> $filtered ? $filtered['clientKey'] : null,
             'sale_date'=>now(),
+            'subsidiary_id'=>$user->subsidiary_id,
+            'shift'=>$user->shift,
             'total'=>$total
         ]);
         $saleId=$sale->id;
@@ -75,7 +78,6 @@ class SaleController extends Controller
                 $clientDate->end_date=$endDate;
                 $clientDate->save();
         }
-        $user = Auth::user();
         return redirect()->route('sales.ticket',['id' => $saleId])->with(['subsidiary_id'=>$user->subsidiary_id]);
     }
     public function ticket(Request $request, $saleId){

@@ -7,7 +7,6 @@ use App\Models\Service;
 class ServiceController extends Controller
 {
     private $categories=[
-        "--Seleccione una opción --",
         "Anual",
         "Semestral",
         "Mensual",

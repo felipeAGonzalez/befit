@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Subsidiary;
 
 
 class UserController extends Controller
 {
+    private $position = [
+        "DIRECTIVE" => "Directivo",
+        "MANAGER" => "Encargado",
+        "RECEPTIONIST" => "Recepcionista",
+    ];
+
     public function index()
     {
         $users = User::all();
@@ -22,20 +29,21 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.form');
+        $position = $this->position;
+        $subsidiary = Subsidiary::all();
+        return view('users.form',compact('subsidiary','position'));
 
     }
 
     public function store(Request $request)
     {
-        \Log::info("ss");
         $validator = $request->validate([
             'name' => 'required',
+            'subsidiary_id' => 'required',
             'shift' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
-
         $user = User::create($request->all());
         if (! $user) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -45,8 +53,10 @@ class UserController extends Controller
 
     public function edit($id)
     {
+        $position = $this->position;
+        $subsidiary = Subsidiary::all();
         $user = User::findOrFail($id);
-        return view('users.form', compact('user'));
+        return view('users.form', compact('user','subsidiary','position'));
     }
 
     public function update(Request $request, $id)
@@ -57,9 +67,15 @@ class UserController extends Controller
             'email' => 'nullable|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6',
         ]);
-
+        $data=$request->all();
+        $data = array_filter($data, function ($value) {
+            return $value !== null;
+        });
         $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->update($data);
+        // \Log::info($data);
+        // $user->fill($data);
+        // $user->save();
         return redirect()->route('users.show', $user->id);
     }
 

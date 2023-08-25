@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Soporte',
             'subsidiary_id' => 1,
+            'position' => 'ROOT',
             'shift' => 'none',
             'email' => 'befit@gmail.com',
             'password' => Hash::make('apocalipsis'),
