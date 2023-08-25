@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Sale;
+use App\Models\Subsidiary;
 use App\Models\SaleDetail;
 use App\Models\ClientDate;
 use App\Models\Service;
@@ -41,9 +43,10 @@ class SaleController extends Controller
             'sale_date'=>now(),
             'total'=>$total
         ]);
+        $saleId=$sale->id;
         foreach ($sellElements as $key => $value) {
             $saleDetail=[
-                'sale_id'=>$sale->id,
+                'sale_id'=>$saleId,
                 'amount'=>$value['qty'],
                 'category'=>$value['category'],
                 'price'=>$value['subtotal'],
@@ -57,14 +60,32 @@ class SaleController extends Controller
                 $product->save();
             }
         }
-        $service = Service::where(['id'=>$filtered['id']])->first();
-        $clientDate = ClientDate::where(['client_id'=>$filtered['clientKey']])->first();
-        $date = now();
-        $endDate = $date->addDays($service->days)->format('Y-m-d');
-        $clientDate->start_date=$date;
-        $clientDate->end_date=$endDate;
-        $clientDate->save();
-        return redirect()->route('sales.index')->with('success', 'Venta registrada exitosamente.');
+        if ($filtered) {
+            $service = Service::where(['id'=>$filtered['id']])->first();
+            $clientDate = ClientDate::where(['client_id'=>$filtered['clientKey']])->first();
+            $date = now();
+            if (! $clientDate->end_date) {
+                $endDate = $date->addDays($service->days)->format('Y-m-d');
+                $clientDate->start_date=$date;
+                $clientDate->end_date=$endDate;
+                $clientDate->save();
+            }
+                $endDate = $clientDate->end_date->addDays($service->days)->format('Y-m-d');
+                $clientDate->start_date=$date;
+                $clientDate->end_date=$endDate;
+                $clientDate->save();
+        }
+        $user = Auth::user();
+        return redirect()->route('sales.ticket',['id' => $saleId])->with(['subsidiary_id'=>$user->subsidiary_id]);
+    }
+    public function ticket(Request $request, $saleId){
+        $subsidiaryId = session('subsidiary_id');
+        \Log::info($subsidiaryId);
+        $subsidiary = Subsidiary::where('id',$subsidiaryId)->first();
+        $sale = Sale::where('id',$saleId)->first();
+        $saleDetails=SaleDetail::where('sale_id',$sale->id)->get();
+
+        return view('sales.ticket', compact('sale','saleDetails','subsidiary'));
     }
 }
 

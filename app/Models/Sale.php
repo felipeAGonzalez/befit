@@ -11,4 +11,9 @@ class Sale extends Model
     protected $table = 'sales';
 
     protected $fillable = ['client_id','sale_date','total',];
+
+    public function saleDetail()
+    {
+        return $this->hasOne('App\Models\SaleDetail', 'sale_id');
+    }
 }

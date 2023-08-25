@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -23,10 +22,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container-fluid">
       <a class="navbar-brand" href="{{ url('/') }}">Befit Sport Gym</a>
+      @auth
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    @auth
     <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -45,6 +44,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('categories.index') }}">Categorías</a>
+                        <a class="dropdown-item" href="{{ url('/subsidiaries') }}">Sucursales</a>
                         <a class="dropdown-item" href="{{ url('/products') }}">Productos</a>
                         <a class="dropdown-item" href="{{ url('/users') }}">Usuarios</a>
                     </div>

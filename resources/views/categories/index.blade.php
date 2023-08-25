@@ -3,6 +3,7 @@
 @section('content')
     <h1>Categorías</h1>
     <a href="{{ route('categories.create') }}" class="btn btn-primary mb-2">Crear Categoría</a>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -28,4 +29,5 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 @endsection

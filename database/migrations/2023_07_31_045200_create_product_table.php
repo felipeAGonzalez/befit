@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('category_id')->unsigned()->index()->comment = 'Identificador de la tabla category';
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->string('key')->unique();
             $table->string('name');
-            $table->string('category');
             $table->double('unit_price');
             $table->double('sell_price');
             $table->integer('amount');

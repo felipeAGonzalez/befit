@@ -28,13 +28,18 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        \Log::info("ss");
+        $validator = $request->validate([
             'name' => 'required',
+            'shift' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
         ]);
 
         $user = User::create($request->all());
+        if (! $user) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         return redirect()->route('users.show', $user->id);
     }
 
@@ -47,9 +52,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'required|min:6',
+            'name' => 'nullable',
+            'shift' => 'nullable',
+            'email' => 'nullable|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
         ]);
 
         $user = User::findOrFail($id);

@@ -4,6 +4,7 @@
     <div class="container">
         <h2>Listado de Clientes</h2>
         <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Dar de Alta Cliente</a>
+        <div class="table-responsive">
         <table class="table mt-4">
         <thead>
                 <tr>
@@ -40,6 +41,8 @@
                         </td>
                     </tr>
                 @endforeach
-            </tbody>        </table>
+            </tbody>
+        </table>
+        </div>
     </div>
 @endsection

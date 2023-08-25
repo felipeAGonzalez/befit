@@ -22,8 +22,6 @@
                 </div>
             </div>
         </div>
-
-
     <div class="print-area">
     <div class="card">
             <div class="card-header">

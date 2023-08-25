@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="vh-100">
+<section >
   <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="row d-flex justify-content-center align-items-center align-items-md-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
         <img src="{{asset('logos/befit.png')}}"
           class="img-fluid" alt="Sample image">
@@ -31,9 +31,9 @@
                         </ul>
                     </div>
             @endif
-            <div class="d-flex justify-content-between align-items-center">
+            <!-- <div class="d-flex justify-content-between align-items-center">
                 <a href="{{ route('password.reset') }}" class="text-body">¿Olvidaste la contraseña?</a>
-            </div>
+            </div> -->
 
             <div class="text-center text-lg-start mt-4 pt-2">
                 <button type="submit" class="btn btn-primary btn-lg"

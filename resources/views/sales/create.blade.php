@@ -17,6 +17,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Código</th>
                         <th>Producto/Servicio</th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
@@ -41,8 +42,10 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <th></th>
                         <th colspan="3" class="text-right">Total</th>
                         <th id="total">0.00</th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
@@ -54,7 +57,7 @@
             <form id="formularioVenta" action="{{ route('sales.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="elementsSold" id="productsJSON">
-                <button type="submit" class="btn btn-primary">Realizar Cobro</button>
+                <button type="submit" id="sendData" class="btn btn-primary">Realizar Cobro</button>
             </form>
         </div>
     </div>
@@ -76,8 +79,7 @@
         function mostrarProductosEnTabla(elements) {
             const ListTable = document.getElementById('ListTable');
             elements.forEach(element => {
-            const productoExistente = $(`.id[data-id="${element.id}"]`);
-
+            const productoExistente = $(`.key[data-key="${element.key}"]`);
             if (productoExistente.length > 0) {
                 const qty = parseFloat(productoExistente.closest('tr').find('.qty').text());
                 const nuevaCantidad = qty + 1;
@@ -88,6 +90,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td style="display: none;"><span class="id" data-id="${element.id}">${element.id}</span></td>
+                    <td><span class="key" data-key="${element.key}">${element.key}</span></td>
                     <td><span class="name">${element.name}</span></td>
                     <td style="display: none;"><span class="category">${element.category}</span></td>
                     <td><span class="qty">1</span></td>
@@ -137,6 +140,9 @@
         function mostrarMensajeNoEncontrado() {
             $('#mensajeNoEncontrado').text('Producto no encontrado').fadeIn().delay(2000).fadeOut();
         }
+        function mostrarMensajeClient() {
+            $('#mensajeNoEncontrado').text('Es necesario asignar cliente').fadeIn().delay(2000).fadeOut();
+        }
         $('#formularioVenta').submit(function(event) {
             event.preventDefault();
 
@@ -159,8 +165,10 @@
                 ];
 
                 if (categories.includes(category)) {
-                    console.log('if');
                     clientKey = parseInt($('#inputClient').val());
+                    if (!clientKey) {
+                        mostrarMensajeClient();
+                    }
                 }
                 sellProduct.push({ id, clientKey, name, category, qty, subtotal });
             });

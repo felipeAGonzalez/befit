@@ -4,6 +4,7 @@
     <div class="container">
         <h2>Listado de Productos</h2>
         <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Dar de Alta Producto</a>
+        <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -23,7 +24,7 @@
                         <td>{{ $product->id }}</td>
                         <td>{{ $product->key }}</td>
                         <td>{{ $product->name }}</td>
-                        <td>{{ $product->category }}</td>
+                        <td>{{ $product->category->name }}</td>
                         <td>{{ $product->unit_price }}</td>
                         <td>{{ $product->sell_price }}</td>
                         <td>{{ $product->amount }}</td>
@@ -40,5 +41,6 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
     </div>
 @endsection

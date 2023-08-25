@@ -56,23 +56,23 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var category = document.getElementById('category');
-            var daysImput = document.getElementById('days');
+            var daysInput = document.getElementById('days');
 
             category.addEventListener('change', function() {
                 var selectedCategory = category.value;
                 if (selectedCategory === 'Anual') {
-                    daysImput.value = '365';
+                    daysInput.value = '365';
                 } else if (selectedCategory === 'Semestral') {
-                    daysImput.value = '181';
+                    daysInput.value = '181';
                 }
                 else if (selectedCategory === 'Mensual') {
-                    daysImput.value = '30';
+                    daysInput.value = '30';
                 }else if (selectedCategory === 'Semanal') {
-                    daysImput.value = '7';
+                    daysInput.value = '7';
                 }else if (selectedCategory === 'Visita') {
-                    daysImput.value = '1';
+                    daysInput.value = '1';
                 }else
-                    daysImput.value = '';
+                    daysInput.value = '';
             });
         });
     </script>

@@ -3,12 +3,14 @@
 @section('content')
     <h1>Listado de Usuarios</h1>
     <a href="{{ route('users.create') }}" class="btn btn-primary">Nuevo Usuario</a>
+    <div class="table-responsive">
     <table class="table mt-4">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
+                <th>Turno</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -18,6 +20,7 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    <td>{{ $user->shift }}</td>
                     <td>
                         <a href="{{ route('users.show', $user->id) }}" class="btn btn-info">Ver</a>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Editar</a>
@@ -31,4 +34,5 @@
             @endforeach
         </tbody>
     </table>
+</div>
 @endsection

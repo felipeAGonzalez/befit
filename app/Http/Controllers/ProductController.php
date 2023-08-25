@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.form');
+        $categories = Category::all();
+
+        return view('products.form', compact('categories'));
     }
 
     public function store(Request $request)
@@ -23,7 +26,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->key = $request->input('key');
         $product->name = $request->input('name');
-        $product->category = $request->input('category');
+        $product->category_id = $request->input('category');
         $product->unit_price = $request->input('unit_price');
         $product->sell_price = $request->input('sell_price');
         $product->amount = $request->input('amount');

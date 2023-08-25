@@ -5,7 +5,7 @@
     <h1>Lista de Ventas</h1>
 
     <a href="{{ route('sales.create') }}" class="btn btn-primary mb-3">Registrar Nueva Venta</a>
-
+    <div class="table-responsive">
     <table class="table table-bordered">
         <tr>
             <th>ID</th>
@@ -22,6 +22,7 @@
         </tr>
         @endforeach
     </table>
+</div>
 </div>
 @endsection
 

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('subsidiary_id')->unsigned()->index()->comment = 'Identificador de la tabla sucursal';
+            $table->foreign('subsidiary_id')->references('id')->on('subsidiary');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('shift');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

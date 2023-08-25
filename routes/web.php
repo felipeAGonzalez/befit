@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SubsidiaryController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -76,8 +77,16 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/sales/new', [SaleController::class, 'create'])->name('sales.create');
     Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
     Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
+    Route::get('/sale/{id}', [SaleController::class, 'ticket'])->name('sales.ticket');
 
     Route::resource('categories', CategoryController::class);
+
+    Route::get('/subsidiaries', [SubsidiaryController::class, 'index'])->name('subsidiaries.index');
+    Route::get('/subsidiaries/create', [SubsidiaryController::class, 'create'])->name('subsidiaries.create');
+    Route::post('/subsidiaries', [SubsidiaryController::class, 'store'])->name('subsidiaries.store');
+    Route::get('/subsidiaries/{subsidiary}/edit', [SubsidiaryController::class, 'edit'])->name('subsidiaries.edit');
+    Route::put('/subsidiaries/{subsidiary}', [SubsidiaryController::class, 'update'])->name('subsidiaries.update');
+    Route::delete('/subsidiaries/{subsidiary}', [BranchController::class, 'destroy'])->name('subsidiaries.destroy');
 
 
 });

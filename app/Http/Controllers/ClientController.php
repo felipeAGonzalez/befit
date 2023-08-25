@@ -34,7 +34,6 @@ class ClientController extends Controller
             ]);
             $client=$request->all();
             $client['photo'] = Utils::saveImage($request->file('photo'));
-            // dd($client);
             $client=Client::create($client);
             ClientDate::create(['client_id'=>$client->id,'date_entry'=>$request->all()['date_entry']]);
             return redirect()->route('clients.index')->with('success', 'Cliente dado de alta exitosamente');
