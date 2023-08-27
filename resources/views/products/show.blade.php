@@ -7,7 +7,7 @@
             <div class="card-body">
                 <h5 class="card-title">Clave: {{ $product->key }}</h5>
                 <p class="card-text">Nombre: {{ $product->name }}</p>
-                <p class="card-text">Categoría: {{ $product->category }}</p>
+                <p class="card-text">Categoría: {{ $product->category->name }}</p>
                 <p class="card-text">Precio Unitario: {{ $product->unit_price }}</p>
                 <p class="card-text">Precio de Venta: {{ $product->sell_price }}</p>
                 <p class="card-text">Cantidad: {{ $product->amount }}</p>

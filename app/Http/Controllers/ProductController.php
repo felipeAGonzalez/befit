@@ -52,7 +52,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->key = $request->input('key');
         $product->name = $request->input('name');
-        $product->category = $request->input('category');
+        $product->category_id = $request->input('category');
         $product->unit_price = $request->input('unit_price');
         $product->sell_price = $request->input('sell_price');
         $product->amount = $request->input('amount');

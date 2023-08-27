@@ -12,6 +12,7 @@ use App\Models\ClientDate;
 use App\Models\Service;
 use App\Models\Product;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -73,7 +74,7 @@ class SaleController extends Controller
         $service=$sellElements->whereIn('category',$categories);
 
         $clientId = $this->validateSale($service, $filtered, $sellElements);
-
+        DB::beginTransaction();
         $sale =Sale::create([
             'client_id'=> $clientId,
             'sale_date'=>now(),
@@ -94,6 +95,11 @@ class SaleController extends Controller
             SaleDetail::create($saleDetail);
             $product=Product::where(['id'=>$value['id']])->first();
             if ($product) {
+                    if ($product['amount'] < $value['qty']) {
+                        $error = ValidationException::withMessages(['Error' => 'El producto '.$product['name'].' no tiene inventario suficiente']);
+                        DB::rollBack();
+                        throw $error;
+                    }
                 $product->amount -= $value['qty'];
                 $product->save();
             }
@@ -113,6 +119,7 @@ class SaleController extends Controller
                 $clientDate->end_date=$endDate;
                 $clientDate->save();
         }
+        DB::commit();
         return redirect()->route('sales.ticket',['id' => $saleId]);
     }
 
