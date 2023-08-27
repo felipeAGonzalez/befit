@@ -6,9 +6,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ExpenseDeletionRecordController;
 use App\Http\Controllers\SubsidiaryController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,8 +88,20 @@ Route::group(['middleware'=>['auth']],function () {
     Route::post('/subsidiaries', [SubsidiaryController::class, 'store'])->name('subsidiaries.store');
     Route::get('/subsidiaries/{subsidiary}/edit', [SubsidiaryController::class, 'edit'])->name('subsidiaries.edit');
     Route::put('/subsidiaries/{subsidiary}', [SubsidiaryController::class, 'update'])->name('subsidiaries.update');
-    Route::delete('/subsidiaries/{subsidiary}', [BranchController::class, 'destroy'])->name('subsidiaries.destroy');
+    Route::delete('/subsidiaries/{subsidiary}', [SubsidiaryController::class, 'destroy'])->name('subsidiaries.destroy');
 
+    Route::prefix('expenses')->group(function () {
+        Route::get('/', [ExpenseController::class, 'index'])->name('expenses.index');
+        Route::get('/create', [ExpenseController::class, 'create'])->name('expenses.create');
+        Route::post('/', [ExpenseController::class, 'store'])->name('expenses.store');
+        Route::get('/{expense}/edit', [ExpenseController::class, 'edit'])->name('expenses.edit');
+        Route::put('/{expense}', [ExpenseController::class, 'update'])->name('expenses.update');
+        Route::get('/{expense}/delete', [ExpenseController::class, 'delete'])->name('expenses.delete');
+        Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+    });
+
+
+Route::get('/deletion-records', [ExpenseDeletionRecordController::class, 'index'])->name('deletion-records.index');
+Route::get('/deletion-records/{deletionRecord}', [ExpenseDeletionRecordController::class, 'show'])->name('deletion-records.show');
 
 });
-

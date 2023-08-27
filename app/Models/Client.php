@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $table = 'client';
+
     protected $casts = [
         'birth_date' => 'date',
     ];

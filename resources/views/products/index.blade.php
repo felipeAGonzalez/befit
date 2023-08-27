@@ -43,4 +43,18 @@
         </table>
         </div>
     </div>
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+@if ($errors->any())
+                <div class="alert2 alert2-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ __($error) }}<br></li>
+                        @endforeach
+                        </ul>
+                    </div>
+            @endif
 @endsection

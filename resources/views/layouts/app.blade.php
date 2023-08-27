@@ -35,7 +35,7 @@
                 <a class="nav-link" href="{{ url('/clients') }}">Clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/services') }}">Servicios</a>
+                <a class="nav-link" href="{{ url('/expenses') }}">Gastos</a>
             </li>
         </ul>
         <li class="nav-item dropdown">
@@ -44,6 +44,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('categories.index') }}">Categorías</a>
+                        <a class="dropdown-item" href="{{ route('deletion-records.index') }}">Registro de gastos</a>
+                        <a class="dropdown-item" href="{{ url('/services') }}">Servicios</a>
                         <a class="dropdown-item" href="{{ url('/subsidiaries') }}">Sucursales</a>
                         <a class="dropdown-item" href="{{ url('/products') }}">Productos</a>
                         <a class="dropdown-item" href="{{ url('/users') }}">Usuarios</a>
