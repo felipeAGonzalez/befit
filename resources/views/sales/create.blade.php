@@ -61,6 +61,15 @@
             </form>
         </div>
     </div>
+    @if ($errors->any())
+                <div id="alertDown" class="alert2 alert2-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ __($error) }}<br></li>
+                        @endforeach
+                        </ul>
+                    </div>
+            @endif
 </div>
 
 <div id="mensajeNoEncontrado" class="alert alert-warning" style="display: none;">
@@ -87,12 +96,13 @@
                 const nuevoSubtotal = nuevaCantidad * element.sell_price;
                 productoExistente.closest('tr').find('.subtotal').text(nuevoSubtotal.toFixed(2));
             } else {
+                element.category_id !== null ? category=element.category : category=element.category_id
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td style="display: none;"><span class="id" data-id="${element.id}">${element.id}</span></td>
                     <td><span class="key" data-key="${element.key}">${element.key}</span></td>
                     <td><span class="name">${element.name}</span></td>
-                    <td style="display: none;"><span class="category">${element.category}</span></td>
+                    <td style="display: none;"><span class="category">${category}</span></td>
                     <td><span class="qty">1</span></td>
                     <td>$${element.sell_price.toFixed(2)}</td>
                     <td>$<span class="subtotal">${element.sell_price.toFixed(2)}</span></td>
@@ -140,9 +150,6 @@
         function mostrarMensajeNoEncontrado() {
             $('#mensajeNoEncontrado').text('Producto no encontrado').fadeIn().delay(2000).fadeOut();
         }
-        function mostrarMensajeClient() {
-            $('#mensajeNoEncontrado').text('Es necesario asignar cliente').fadeIn().delay(2000).fadeOut();
-        }
         $('#formularioVenta').submit(function(event) {
             event.preventDefault();
 
@@ -166,9 +173,7 @@
 
                 if (categories.includes(category)) {
                     clientKey = parseInt($('#inputClient').val());
-                    if (!clientKey) {
-                        mostrarMensajeClient();
-                    }
+                    console.log(clientKey);
                 }
                 sellProduct.push({ id, clientKey, name, category, qty, subtotal });
             });
@@ -177,7 +182,11 @@
             $('#productsJSON').val(productsJSON);
             this.submit();
         });
-
+        function quitarDiv() {
+            const div = document.getElementById("alertDown");
+            div.style.display = "none";
+        }
+        setTimeout(quitarDiv, 3000);
 
     });
 </script>

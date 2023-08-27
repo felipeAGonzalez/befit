@@ -73,9 +73,6 @@ class UserController extends Controller
         });
         $user = User::findOrFail($id);
         $user->update($data);
-        // \Log::info($data);
-        // $user->fill($data);
-        // $user->save();
         return redirect()->route('users.show', $user->id);
     }
 

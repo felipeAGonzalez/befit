@@ -2,11 +2,26 @@
 
 @section('content')
     <title>Ticket de Compra</title>
-
+    <style>
+        .ticket-image {
+            max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+            height: auto; /* La altura se ajustará de manera proporcional */
+            display: block;
+            /* margin: 0 auto; Centrar la imagen horizontalmente */
+        }
+    </style>
 <body>
     <div class="ticket">
-        <h1>Ticket de Compra</h1>
+        <img class = ticket-image src="{{asset($subsidiary->logo)}}" alt="Logo" class="img-fluid">
+        <label><strong>Befit Sport Gym</strong></label>
+        <p>{{$subsidiary->address }}</p>
+        <p>{{$subsidiary->zip_code }}</p>
+        <p>{{$subsidiary->phone_number }}</p>
         <p>Fecha: {{ $sale->sale_date }}</p>
+        @if(isset($client))
+        <p>Nombre del cliente: </p>
+        <p>{{$client->name.' '.$client->last_name.' '.$client->last_name_two}}</p>
+        @endif
         <table>
             <thead>
                 <tr>

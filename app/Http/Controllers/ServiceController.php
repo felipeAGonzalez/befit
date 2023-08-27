@@ -6,14 +6,7 @@ use App\Models\Service;
 
 class ServiceController extends Controller
 {
-    private $categories=[
-        "Anual",
-        "Semestral",
-        "Mensual",
-        "Semanal",
-        "Visita",
-        "Paquete Por Visitas"
-    ];
+
     public function index()
     {
         $services = Service::all();

@@ -9,4 +9,12 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+    public $categories=[
+        "Anual",
+        "Semestral",
+        "Mensual",
+        "Semanal",
+        "Visita",
+        "Paquete Por Visitas"
+    ];
 }

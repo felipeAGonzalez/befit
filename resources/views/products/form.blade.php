@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ isset($subsidiary) ? 'Editar Sucursal' : 'Registrar Nueva Sucursal' }}</div>
+                    <div class="card-header">{{ isset($subsidiary) ? 'Editar Producto' : 'Registrar Nuevo Producto' }}</div>
 
                     <div class="card-body">
                     <form action="{{ isset($product) ? route('products.update', $product->id) : route('products.store') }}" method="POST">
@@ -27,9 +27,9 @@
                         <div class="form-group">
                         <label for="category">Seleccione una Categoría:</label>
                         <select name="category" id="category">
-                            <option value="" default>--Seleccione Categoria--</option>
+                            <option value="">--Seleccione Categoría--</option>
                                 @foreach($categories as $key => $value)
-                                    <option value="{{ isset($product) ? $product->category->name : $value->id }}">{{ $value->name }}</option>
+                                <option value="{{ $value->id }}" {{ isset($product) && $product->category->id == $value->id ? 'selected' : '' }}>{{ $value->name }}</option>
                                 @endforeach
                             </select>
                         </div>

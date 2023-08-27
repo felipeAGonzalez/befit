@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Sale;
+use App\Models\Client;
 use App\Models\Subsidiary;
 use App\Models\SaleDetail;
 use App\Models\ClientDate;
 use App\Models\Service;
 use App\Models\Product;
+use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
 {
@@ -32,15 +34,48 @@ class SaleController extends Controller
         }
         return response()->json($element);
     }
+
+    private function validateClient($object){
+        if ($object) {
+            $client = Client::where('id',$object['clientKey'])->first();
+            if (! isset($client)) {
+                $error = ValidationException::withMessages(['Error' => 'No se encontró información del cliente, Verifique']);
+                throw $error;
+            }
+            return $client->id;
+        }
+        return null;
+    }
+
+    private function validateSale($service, $object, $sellElements){
+        if ($sellElements->isEmpty()) {
+            $error = ValidationException::withMessages(['Error' => 'La venta no tiene ningún elemento']);
+            throw $error;
+        }
+        $service = $service->first();
+        if ($service) {
+            if (! $service['clientKey']) {
+                $error = ValidationException::withMessages(['Error' => 'Para vender un servicio es necesario asignar un cliente']);
+                throw $error;
+            }
+        }
+        return $this->validateClient($object);
+
+    }
+
     public function store(Request $request)
     {
+        $categories = $this->categories;
         $sellElements = collect(json_decode($request->all()['elementsSold'],true));
         $user = Auth::user();
         $filtered = $sellElements->whereNotNull("clientKey")->first();
         $total=$sellElements->sum('subtotal');
+        $service=$sellElements->whereIn('category',$categories);
+
+        $clientId = $this->validateSale($service, $filtered, $sellElements);
 
         $sale =Sale::create([
-            'client_id'=> $filtered ? $filtered['clientKey'] : null,
+            'client_id'=> $clientId,
             'sale_date'=>now(),
             'subsidiary_id'=>$user->subsidiary_id,
             'shift'=>$user->shift,
@@ -78,16 +113,19 @@ class SaleController extends Controller
                 $clientDate->end_date=$endDate;
                 $clientDate->save();
         }
-        return redirect()->route('sales.ticket',['id' => $saleId])->with(['subsidiary_id'=>$user->subsidiary_id]);
+        return redirect()->route('sales.ticket',['id' => $saleId]);
     }
+
     public function ticket(Request $request, $saleId){
-        $subsidiaryId = session('subsidiary_id');
-        \Log::info($subsidiaryId);
-        $subsidiary = Subsidiary::where('id',$subsidiaryId)->first();
+        $user = Auth::user();
+        $subsidiary = Subsidiary::where('id',$user->subsidiary_id)->first();
         $sale = Sale::where('id',$saleId)->first();
         $saleDetails=SaleDetail::where('sale_id',$sale->id)->get();
+        if ($sale->client_id) {
+            $client=Client::where('id',$sale->client_id)->first();
+            return view('sales.ticket', compact('sale','saleDetails','subsidiary','client'));
+        }
 
         return view('sales.ticket', compact('sale','saleDetails','subsidiary'));
     }
 }
-
