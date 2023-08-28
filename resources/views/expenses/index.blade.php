@@ -30,7 +30,14 @@
             @endforeach
         </tbody>
     </table>
-    {{ $expenses->links() }}
+    <div class="d-flex justify-content-end">
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+            {!!$expenses->links()!!}
+            </ul>
+        </nav>
+    </div>
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}

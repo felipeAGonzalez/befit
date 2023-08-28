@@ -20,7 +20,14 @@
         </tr>
         @endforeach
     </table>
-</div>
+    <div class="d-flex justify-content-end">
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+            {!!$sales->links()!!}
+            </ul>
+        </nav>
+    </div>
 </div>
 @endsection
 

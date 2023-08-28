@@ -10,6 +10,7 @@ use App\Http\Controllers\ExpenseDeletionRecordController;
 use App\Http\Controllers\SubsidiaryController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
@@ -101,7 +102,7 @@ Route::group(['middleware'=>['auth']],function () {
     });
 
 
-Route::get('/deletion-records', [ExpenseDeletionRecordController::class, 'index'])->name('deletion-records.index');
-Route::get('/deletion-records/{deletionRecord}', [ExpenseDeletionRecordController::class, 'show'])->name('deletion-records.show');
-
+    Route::get('/deletion-records', [ExpenseDeletionRecordController::class, 'index'])->name('deletion-records.index');
+    Route::get('/deletion-records/{deletionRecord}', [ExpenseDeletionRecordController::class, 'show'])->name('deletion-records.show');
+    Route::get('/reports/sales', [ReportController::class, 'salesReport'])->name('reports.sales');
 });

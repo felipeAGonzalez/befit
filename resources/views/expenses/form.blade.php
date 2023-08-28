@@ -43,8 +43,7 @@
                     Crear
                 @endif
             </button>
-            <a href="{{ route('expenses.index') }}" class="btn btn-secondary mt-3">Volver</a>
-
+            <a href="{{ route('expenses.index') }}" class="btn btn-secondary">Volver</a>
         </form>
     </div>
     </div>

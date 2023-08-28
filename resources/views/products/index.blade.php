@@ -41,6 +41,14 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-end">
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+            {!!$products->links()!!}
+            </ul>
+        </nav>
+    </div>
         </div>
     </div>
     @if(session('success'))

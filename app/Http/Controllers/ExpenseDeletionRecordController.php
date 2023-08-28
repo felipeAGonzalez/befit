@@ -9,7 +9,7 @@ class ExpenseDeletionRecordController extends Controller
 {
     public function index()
     {
-        $deletionRecords = ExpenseDeletionRecord::all();
+        $deletionRecords = ExpenseDeletionRecord::paginate(10);
         return view('expense-deletion-records.index', compact('deletionRecords'));
     }
 

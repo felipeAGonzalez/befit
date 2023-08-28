@@ -18,7 +18,7 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $sales = Sale::all();
+        $sales = Sale::where(['subsidiary_id' => Auth::user()->subsidiary_id])->paginate(10);
         return view('sales.index', compact('sales'));
     }
 

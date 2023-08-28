@@ -36,6 +36,14 @@
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-end">
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+            {!!$users->links()!!}
+            </ul>
+        </nav>
+    </div>
 </div>
 @if(session('success'))
     <div class="alert alert-success">
