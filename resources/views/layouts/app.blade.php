@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Befit</title>
+    <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,13 +22,16 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
    <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url('/') }}">Befit Sport Gym</a>
+      <a class="navbar-brand" href="{{ url('/') }}"> <img src="{{asset('logos/icono.png')}}" width="50" > Befit Sport Gym</a>
       @auth
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ url('/attendance') }}">Asistencia<span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link active" href="{{ url('/sales') }}">Ventas<span class="sr-only">(current)</span></a>
             </li>
@@ -43,14 +47,23 @@
                         Administración
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('categories.index') }}">Categorías</a>
+
                         <a class="dropdown-item" href="{{ route('deletion-records.index') }}">Registro de gastos</a>
-                        <a class="dropdown-item" href="{{ url('/services') }}">Servicios</a>
                         <a class="dropdown-item" href="{{ url('/subsidiaries') }}">Sucursales</a>
-                        <a class="dropdown-item" href="{{ url('/products') }}">Productos</a>
                         <a class="dropdown-item" href="{{ url('/users') }}">Usuarios</a>
                     </div>
-                </li>
+        </li>
+
+        <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Inventario
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('categories.index') }}">Categorías</a>
+                        <a class="dropdown-item" href="{{ url('/services') }}">Servicios</a>
+                        <a class="dropdown-item" href="{{ url('/products') }}">Productos</a>
+                    </div>
+        </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown03">

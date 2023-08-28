@@ -95,11 +95,6 @@ height: 100%;
 .button-link:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
-/* .container {
-  width: 100%;
-  padding-top: 60px;
-  padding-bottom: 100px;
-} */
 .container-layout {
     width: 100%;
     padding-top: 0px;
