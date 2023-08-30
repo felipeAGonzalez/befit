@@ -6,7 +6,7 @@
         <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Dar de Alta Cliente</a>
         <div class="table-responsive">
         <table class="table mt-4">
-        <thead>
+         <thead class="table-dark">
                 <tr>
                     <th scope="col">Foto</th>
                     <th scope="col">Nombre</th>

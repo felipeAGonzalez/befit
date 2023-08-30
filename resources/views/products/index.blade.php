@@ -6,7 +6,7 @@
         <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Dar de Alta Producto</a>
         <div class="table-responsive">
         <table class="table table-bordered">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Clave</th>
@@ -19,19 +19,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($products as $product)
-                    <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->key }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>{{ $product->category->name }}</td>
-                        <td>{{ $product->unit_price }}</td>
-                        <td>{{ $product->sell_price }}</td>
-                        <td>{{ $product->amount }}</td>
+                @foreach($subsidiaryProducts as $subsidiaryProduct)
+                <tr>
+                        <td>{{ $subsidiaryProduct->product->id }}</td>
+                        <td>{{ $subsidiaryProduct->product->key }}</td>
+                        <td>{{ $subsidiaryProduct->product->name }}</td>
+                        <td>{{ $subsidiaryProduct->product->category->name }}</td>
+                        <td>{{ $subsidiaryProduct->unit_price }}</td>
+                        <td>{{ $subsidiaryProduct->sell_price }}</td>
+                        <td>{{ $subsidiaryProduct->amount }}</td>
                         <td>
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">Ver</a>
-                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Editar</a>
-                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display: inline-block;">
+                        <a href="{{ route('products.show', $subsidiaryProduct->product->id) }}" class="btn btn-info">Ver</a>
+                            <a href="{{ route('products.edit', $subsidiaryProduct->product->id) }}" class="btn btn-primary">Editar</a>
+                            <a href="{{ route('products.addShow', $subsidiaryProduct->product->id) }}" class="btn btn-success">Añadir</a>
+                            <form action="{{ route('products.destroy', $subsidiaryProduct->product->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este producto?')">Eliminar</button>
@@ -45,7 +46,7 @@
         </div>
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
-            {!!$products->links()!!}
+            {!!$subsidiaryProducts->links()!!}
             </ul>
         </nav>
     </div>

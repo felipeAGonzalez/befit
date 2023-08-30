@@ -5,7 +5,7 @@
     <a href="{{ route('categories.create') }}" class="btn btn-primary mb-2">Crear Categoría</a>
     <div class="table-responsive">
     <table class="table">
-        <thead>
+         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>

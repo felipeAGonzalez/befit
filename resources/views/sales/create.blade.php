@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <!-- Tabla de Lista de Compra -->
             <table class="table table-bordered">
-                <thead>
+                 <thead class="table-dark">
                     <tr>
                         <th>Código</th>
                         <th>Producto/Servicio</th>

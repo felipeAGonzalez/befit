@@ -11,6 +11,7 @@ use App\Http\Controllers\SubsidiaryController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +66,8 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/products/{id}/addShow', [ProductController::class, 'showAdd'])->name('products.addShow');
+    Route::patch('/products/{id}/add', [ProductController::class, 'add'])->name('products.add');
 
     Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
@@ -105,4 +108,7 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/deletion-records', [ExpenseDeletionRecordController::class, 'index'])->name('deletion-records.index');
     Route::get('/deletion-records/{deletionRecord}', [ExpenseDeletionRecordController::class, 'show'])->name('deletion-records.show');
     Route::get('/reports/sales', [ReportController::class, 'salesReport'])->name('reports.sales');
+
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendance/search', [AttendanceController::class, 'search'])->name('attendance.search');
 });

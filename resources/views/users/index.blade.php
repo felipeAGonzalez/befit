@@ -5,7 +5,7 @@
     <a href="{{ route('users.create') }}" class="btn btn-primary">Nuevo Usuario</a>
     <div class="table-responsive">
     <table class="table mt-4">
-        <thead>
+         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>

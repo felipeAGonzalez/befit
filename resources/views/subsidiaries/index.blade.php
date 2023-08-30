@@ -5,7 +5,7 @@
     <a href="{{ route('subsidiaries.create') }}" class="btn btn-primary">Agregar Sucursal</a>
     <div class="table-responsive">
     <table class="table">
-        <thead>
+         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>

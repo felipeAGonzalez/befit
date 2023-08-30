@@ -23,7 +23,7 @@
         <p>{{$client->name.' '.$client->last_name.' '.$client->last_name_two}}</p>
         @endif
         <table>
-            <thead>
+             <thead class="table-dark">
                 <tr>
                     <th>Producto</th>
                     <th>Cantidad</th>

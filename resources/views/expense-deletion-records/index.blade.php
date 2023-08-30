@@ -4,7 +4,7 @@
     <h1>Listado de Registros de Eliminación de Gastos</h1>
 
     <table class="table">
-        <thead>
+         <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Gasto ID</th>

@@ -5,7 +5,7 @@
         <h2>Listado de Servicios</h2>
         <a href="{{ route('services.create') }}" class="btn btn-primary mb-3">Dar de Alta Servicio</a>
         <table class="table mt-4">
-        <thead>
+         <thead class="table-dark">
                 <tr>
                     <th scope="col">Clave</th>
                     <th scope="col">Nombre</th>

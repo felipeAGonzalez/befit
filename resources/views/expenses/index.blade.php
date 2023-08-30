@@ -4,7 +4,7 @@
     <h2>Gastos</h2>
     <a href="{{ route('expenses.create') }}" class="btn btn-primary">Crear Gasto</a>
     <table class="table">
-        <thead>
+         <thead class="table-dark">
             <tr>
                 <th>Sucursal</th>
                 <th>Usuario</th>

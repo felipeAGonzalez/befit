@@ -7,11 +7,13 @@
     <a href="{{ route('sales.create') }}" class="btn btn-primary mb-3">Registrar Nueva Venta</a>
     <div class="table-responsive">
     <table class="table table-bordered">
+    <thead class="table-dark">
         <tr>
             <th>ID</th>
             <th>Fecha de venta</th>
             <th>Total</th>
         </tr>
+    </thead>
         @foreach($sales as $sale)
         <tr>
             <td>{{ $sale->id }}</td>
