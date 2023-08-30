@@ -12,4 +12,9 @@ class Subsidiary extends Model
     protected $fillable = [
         'name', 'address', 'logo', 'zip_code', 'phone_number',
     ];
+
+    public function subsidiaryProducts()
+    {
+        return $this->hasMany(SubsidiaryProduct::class);
+    }
 }

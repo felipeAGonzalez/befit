@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Subsidiary;
 use App\Models\SaleDetail;
 use App\Models\ClientDate;
+use App\Models\SubsidiaryProduct;
 use App\Models\Service;
 use App\Models\Product;
 use Illuminate\Validation\ValidationException;
@@ -29,10 +30,12 @@ class SaleController extends Controller
     public function search(Request $request)
     {
         $search = $request->all();
-        $element = Product::where('key', $search)->get();
-        if ($element->isEmpty()) {
-            $element = Service::where('key',$search)->get();
+        $element = Product::where('key', $search)->first();
+        if ($element) {
+            $element = SubsidiaryProduct::where(['subsidiary_id' => Auth::user()->subsidiary_id,'product_id'=>$element->id])->with(SubsidiaryProduct::PRODUCTS)->get();
+            return response()->json($element);
         }
+        $element = Service::where('key',$search)->get();
         return response()->json($element);
     }
 
@@ -93,15 +96,15 @@ class SaleController extends Controller
             $value['clientKey'] ? $saleDetail['service_id'] = $value['id'] :  $saleDetail['product_id']=$value['id'];
             $value['clientKey'] ? $saleDetail['description'] = 'Venta de servicio' :  $saleDetail['description']='Venta de producto';
             SaleDetail::create($saleDetail);
-            $product=Product::where(['id'=>$value['id']])->first();
-            if ($product) {
-                    if ($product['amount'] < $value['qty']) {
+            $subsidiaryProduct = SubsidiaryProduct::where(['subsidiary_id' => Auth::user()->subsidiary_id,'product_id'=>$value['id']])->first();
+            if ($subsidiaryProduct) {
+                    if ($subsidiaryProduct->amount < $value['qty']) {
                         $error = ValidationException::withMessages(['Error' => 'El producto '.$product['name'].' no tiene inventario suficiente']);
                         DB::rollBack();
                         throw $error;
                     }
-                $product->amount -= $value['qty'];
-                $product->save();
+                $subsidiaryProduct->amount -= $value['qty'];
+                $subsidiaryProduct->save();
             }
         }
         if ($filtered) {

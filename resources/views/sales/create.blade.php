@@ -88,7 +88,8 @@
         function mostrarProductosEnTabla(elements) {
             const ListTable = document.getElementById('ListTable');
             elements.forEach(element => {
-            const productoExistente = $(`.key[data-key="${element.key}"]`);
+                element.product !== undefined ? key=element.product.key : key=element.key
+            const productoExistente = $(`.key[data-key="${key}"]`);
             if (productoExistente.length > 0) {
                 const qty = parseFloat(productoExistente.closest('tr').find('.qty').text());
                 const nuevaCantidad = qty + 1;
@@ -96,12 +97,15 @@
                 const nuevoSubtotal = nuevaCantidad * element.sell_price;
                 productoExistente.closest('tr').find('.subtotal').text(nuevoSubtotal.toFixed(2));
             } else {
-                element.category_id !== null ? category=element.category : category=element.category_id
+                element.product !== undefined ? key=element.product.key : key=element.key
+                element.product !== undefined ? category=element.product.category_id : category=element.category
+                element.product !== undefined ? id=element.product.id : id=element.id
+                element.product !== undefined ? name=element.product.name : name=element.name
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td style="display: none;"><span class="id" data-id="${element.id}">${element.id}</span></td>
-                    <td><span class="key" data-key="${element.key}">${element.key}</span></td>
-                    <td><span class="name">${element.name}</span></td>
+                    <td style="display: none;"><span class="id" data-id="${id}">${id}</span></td>
+                    <td><span class="key" data-key="${key}">${key}</span></td>
+                    <td><span class="name">${name}</span></td>
                     <td style="display: none;"><span class="category">${category}</span></td>
                     <td><span class="qty">1</span></td>
                     <td>$${element.sell_price.toFixed(2)}</td>
@@ -135,11 +139,13 @@
                     method: 'GET',
                     data: { key: key },
                     success: function(response) {
-                        if (response.length == 0) {
+                        if (Object.keys(response).length == 0) {
                             mostrarMensajeNoEncontrado();
-                        }
+                            return;
+                        }else{
                             mostrarProductosEnTabla(response);
                             $('#seeker').val('');
+                        }
                     },
                     error: function() {
                         console.log('Error al buscar productos');
