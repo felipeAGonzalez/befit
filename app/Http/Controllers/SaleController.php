@@ -108,18 +108,24 @@ class SaleController extends Controller
             }
         }
         if ($filtered) {
+            $daysService = null;
             $service = Service::where(['id'=>$filtered['id']])->first();
+            if ($service->category == 'Paquete Por Visitas') {
+                $daysService = $service->days;
+            }
             $clientDate = ClientDate::where(['client_id'=>$filtered['clientKey']])->first();
             $date = now();
             if (! $clientDate->end_date) {
                 $endDate = $date->addDays($service->days)->format('Y-m-d');
                 $clientDate->start_date=$date;
                 $clientDate->end_date=$endDate;
+                $clientDate->days_service=$daysService;
                 $clientDate->save();
             }
                 $endDate = $clientDate->end_date->addDays($service->days)->format('Y-m-d');
                 $clientDate->start_date=$date;
                 $clientDate->end_date=$endDate;
+                $clientDate->days_service=$daysService;
                 $clientDate->save();
         }
         DB::commit();

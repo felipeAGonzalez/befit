@@ -111,4 +111,5 @@ Route::group(['middleware'=>['auth']],function () {
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance/search', [AttendanceController::class, 'search'])->name('attendance.search');
+    Route::get('/attendance/register/{id}', [AttendanceController::class, 'registerAttendant'])->name('attendance.register');
 });

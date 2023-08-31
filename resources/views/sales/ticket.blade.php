@@ -23,9 +23,9 @@
         <p>{{$client->name.' '.$client->last_name.' '.$client->last_name_two}}</p>
         @endif
         <table>
-             <thead class="table-dark">
+             <thead>
                 <tr>
-                    <th>Producto</th>
+                    <th style = "text-align: center;" >Producto</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
                 </tr>
