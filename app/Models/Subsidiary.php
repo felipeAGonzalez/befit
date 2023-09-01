@@ -17,4 +17,10 @@ class Subsidiary extends Model
     {
         return $this->hasMany(SubsidiaryProduct::class);
     }
+
+    public function sales()
+    {
+        return $this->hasMany('App\Models\Sale', 'sale_id');
+
+    }
 }
