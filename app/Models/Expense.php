@@ -13,7 +13,7 @@ class Expense extends Model
     ];
     public function subsidiary()
     {
-        return $this->belongsTo(Subsidiary::class);
+        return $this->belongsTo('App\Models\Subsidiary', 'subsidiary_id', 'id');
     }
 
     public function user()

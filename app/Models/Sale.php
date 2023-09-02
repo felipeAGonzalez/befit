@@ -23,6 +23,6 @@ class Sale extends Model
 
     public function subsidiary()
     {
-        return $this->belongsTo('App\Models\Subsidiary', 'subsidiary_id');
+        return $this->belongsTo('App\Models\Subsidiary', 'subsidiary_id', 'id');
     }
 }

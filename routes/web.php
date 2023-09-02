@@ -103,11 +103,13 @@ Route::group(['middleware'=>['auth']],function () {
         Route::get('/{expense}/delete', [ExpenseController::class, 'delete'])->name('expenses.delete');
         Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
     });
-
-
     Route::get('/deletion-records', [ExpenseDeletionRecordController::class, 'index'])->name('deletion-records.index');
     Route::get('/deletion-records/{deletionRecord}', [ExpenseDeletionRecordController::class, 'show'])->name('deletion-records.show');
+
+
+
     Route::get('/reports/sales', [ReportController::class, 'salesReport'])->name('reports.sales');
+    Route::get('/reports/subsidiaries', [ReportController::class, 'subsidiaryReport'])->name('reports.subsidiaries');
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance/search', [AttendanceController::class, 'search'])->name('attendance.search');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Sale;
+use App\Models\Subsidiary;
 use App\Models\Expense;
 
 
@@ -27,5 +28,20 @@ class ReportController extends Controller
         $sales = $sales->paginate(10);
         $expenses = $expenses->paginate(10);
         return view('reports.sales', compact('sales','expenses','salesTotal','expensesTotal'));
+    }
+
+    public function subsidiaryReport(Request $request)
+    {
+        $date = $request->query('date');
+        $subsidiaries = Subsidiary::query();
+
+        if ($date ?? false) {
+            $subsidiaries = Subsidiary::whereHas('sales', function($query) use ($date){
+                $query->whereBetween('sale_date', [$date, now()]);
+            });
+        }
+        $subsidiaries = $subsidiaries->paginate(10);
+
+        return view('reports.subsidiary', compact('subsidiaries'));
     }
 }

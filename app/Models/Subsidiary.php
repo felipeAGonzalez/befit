@@ -20,7 +20,11 @@ class Subsidiary extends Model
 
     public function sales()
     {
-        return $this->hasMany('App\Models\Sale', 'sale_id');
+        return $this->hasMany('App\Models\Sale', 'subsidiary_id');
+    }
 
+    public function expenses()
+    {
+        return $this->hasMany('App\Models\Expense', 'subsidiary_id');
     }
 }
