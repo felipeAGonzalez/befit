@@ -99,7 +99,7 @@ class SaleController extends Controller
             $subsidiaryProduct = SubsidiaryProduct::where(['subsidiary_id' => Auth::user()->subsidiary_id,'product_id'=>$value['id']])->first();
             if ($subsidiaryProduct) {
                     if ($subsidiaryProduct->amount < $value['qty']) {
-                        $error = ValidationException::withMessages(['Error' => 'El producto '.$product['name'].' no tiene inventario suficiente']);
+                        $error = ValidationException::withMessages(['Error' => 'El producto '.$subsidiaryProduct->product->name.' no tiene inventario suficiente']);
                         DB::rollBack();
                         throw $error;
                     }

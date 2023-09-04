@@ -110,6 +110,7 @@ Route::group(['middleware'=>['auth']],function () {
 
     Route::get('/reports/sales', [ReportController::class, 'salesReport'])->name('reports.sales');
     Route::get('/reports/subsidiaries', [ReportController::class, 'subsidiaryReport'])->name('reports.subsidiaries');
+    Route::get('/reports/shift', [ReportController::class, 'reportByShift'])->name('reports.shift');
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance/search', [AttendanceController::class, 'search'])->name('attendance.search');

@@ -44,4 +44,14 @@ class ReportController extends Controller
 
         return view('reports.subsidiary', compact('subsidiaries'));
     }
+
+    public function reportByShift()
+    {
+        $salesByShift = Sale::select('shift', \DB::raw('SUM(total) as total_sales'))
+            ->groupBy('shift')
+            ->get();
+
+            \Log::info($salesByShift);
+        return view('reports.shift', compact('salesByShift'));
+    }
 }

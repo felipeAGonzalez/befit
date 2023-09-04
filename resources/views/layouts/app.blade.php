@@ -68,8 +68,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown03">
                     <a class="dropdown-item" href="{{ route('reports.sales') }}">Reporte de Ventas</a>
-                    <a class="dropdown-item" href="{{route('reports.subsidiaries')}}">Reporte por Sucursal</a>
-                    <a class="dropdown-item" href="#">Reporte por Turno</a>
+                    <a class="dropdown-item" href="{{ route('reports.subsidiaries')}}">Reporte por Sucursal</a>
+                    <a class="dropdown-item" href="{{ route('reports.shift')}}">Reporte por Turno</a>
                 </div>
                 <li class="nav-item">
                    <a class="nav-link" href="{{ url('/logout') }}">Cerrar Sesión</a>
