@@ -19,7 +19,7 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $sales = Sale::where(['subsidiary_id' => Auth::user()->subsidiary_id])->paginate(10);
+        $sales = Sale::where(['subsidiary_id' => Auth::user()->subsidiary_id])->orderByDesc('id')->paginate(10);
         return view('sales.index', compact('sales'));
     }
 
@@ -71,10 +71,22 @@ class SaleController extends Controller
     {
         $categories = $this->categories;
         $sellElements = collect(json_decode($request->all()['elementsSold'],true));
+        if (! $request->all()['payment_type']){
+            $error = ValidationException::withMessages(['Error' => 'Debe de elegir un tipo de pago']);
+            throw $error;
+        }
         $user = Auth::user();
         $filtered = $sellElements->whereNotNull("clientKey")->first();
         $total=$sellElements->sum('subtotal');
         $service=$sellElements->whereIn('category',$categories);
+        $totalCard = 0;
+        if ($request->all()['payment_type']== 'mixed') {
+            if (! $request->all()['mixedInput']) {
+                $error = ValidationException::withMessages(['Error' => 'Debe de ingresar la cantidad pagada con la tarjeta']);
+                throw $error;
+            }
+            $totalCard = $request->all()['mixedInput'];
+        }
 
         $clientId = $this->validateSale($service, $filtered, $sellElements);
         DB::beginTransaction();
@@ -83,6 +95,8 @@ class SaleController extends Controller
             'sale_date'=>now(),
             'subsidiary_id'=>$user->subsidiary_id,
             'shift'=>$user->shift,
+            'payment_type' => $request->all()['payment_type'],
+            'total_card' => $totalCard,
             'total'=>$total
         ]);
         $saleId=$sale->id;
@@ -121,12 +135,13 @@ class SaleController extends Controller
                 $clientDate->end_date=$endDate;
                 $clientDate->days_service=$daysService;
                 $clientDate->save();
-            }
+            }else{
                 $endDate = $clientDate->end_date->addDays($service->days)->format('Y-m-d');
-                $clientDate->start_date=$date;
-                $clientDate->end_date=$endDate;
-                $clientDate->days_service=$daysService;
+                $clientDate->start_date = $date;
+                $clientDate->end_date = $endDate;
+                $clientDate->days_service = $daysService;
                 $clientDate->save();
+            }
         }
         DB::commit();
         return redirect()->route('sales.ticket',['id' => $saleId]);
@@ -143,5 +158,16 @@ class SaleController extends Controller
         }
 
         return view('sales.ticket', compact('sale','saleDetails','subsidiary'));
+    }
+    public function show(Request $request, $saleId){
+        $sale = Sale::where('id',$saleId)->first();
+        $saleDetails=SaleDetail::where('sale_id',$sale->id)->get();
+        \Log::info($sale);
+        if ($sale->client_id) {
+            $client=Client::where('id',$sale->client_id)->first();
+            return view('sales.show', compact('sale','saleDetails','client'));
+        }
+
+        return view('sales.show', compact('sale','saleDetails'));
     }
 }

@@ -11,7 +11,7 @@ class Client extends Model
     protected $casts = [
         'birth_date' => 'date',
     ];
-    protected $fillable = [ 'name','last_name','last_name_two','email','birth_date','photo',];
+    protected $fillable = [ 'subsidiary_id','name','last_name','last_name_two','email','birth_date','phone_number','photo',];
 
 
     public function clientDate()

@@ -22,6 +22,7 @@
         <p>Nombre del cliente: </p>
         <p>{{$client->name.' '.$client->last_name.' '.$client->last_name_two}}</p>
         @endif
+        <p>Tipo de Pago: {{ __('web.'.$sale->payment_type) }}</p>
         <table>
              <thead>
                 <tr>
@@ -41,11 +42,27 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">--------------------------</td>
+                    <td colspan="3">------------------------------------</td>
                 </tr>
                 <tr>
-                    <td colspan="2">Total:</td>
-                    <td>${{ $sale->total }}</td>
+                    @if(!$sale->totalCard)
+                        <td colspan="2"><strong>Total:</strong></td>
+                        <td>${{ $sale->total }}</td>
+                    @else
+                        <td colspan="2"><strong>Total Efectivo:</strong></td>
+                        <td>${{ $sale->total - $sale->total_card }}</td>
+                        <tr>
+                            <td colspan="2"><strong>Total tarjeta:</strong></td>
+                            <td>${{ $sale->total_card }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">------------------------------------</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>Total:</strong></td>
+                            <td>${{ $sale->total }}</td>
+                        </tr>
+                    @endif
                 </tr>
             </tfoot>
         </table>

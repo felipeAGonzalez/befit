@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Seleccione una Categoría:</label>
-                                        <select name="category" id="category">
+                                        <select name="category" class="form-select" id="category">
                                         <option value="" default>--Seleccione una Categoría</option>
                                                 @foreach($categories as $key => $value)
                                                     <option value="{{ isset($service) ? $service->name : $value }}">{{ $value }}</option>
@@ -75,8 +75,7 @@
                     daysInput.value = '365';
                 } else if (selectedCategory === 'Semestral') {
                     daysInput.value = '181';
-                }
-                else if (selectedCategory === 'Mensual') {
+                }else if (selectedCategory === 'Mensual') {
                     daysInput.value = '30';
                 }else if (selectedCategory === 'Semanal') {
                     daysInput.value = '7';

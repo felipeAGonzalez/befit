@@ -49,7 +49,7 @@ class ServiceController extends Controller
         $service->name = $request->input('name');
         $service->category = $request->input('category');
         $service->days = $request->input('days');
-        $service->price = $request->input('price');
+        $service->sell_price = $request->input('price');
         $service->save();
 
         return redirect()->route('services.index')->with('success', 'Service actualizado exitosamente.');

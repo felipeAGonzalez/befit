@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('category_id')->unsigned()->index()->comment = 'Identificador de la tabla category';
-            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('category');
             $table->string('key')->unique();
             $table->string('name');
             $table->double('unit_price');

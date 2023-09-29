@@ -7,6 +7,8 @@ return [
 'RECEPTIONIST'=>'Recepcionista',
 'none'=>'No aplica',
 'Morning'=>'Matutino',
-'Afternoon'=>'Vespertino'
-
+'Afternoon'=>'Vespertino',
+'card' => 'Tarjeta',
+'cash' => 'Efectivo',
+'mixed' => 'Mixto',
 ];

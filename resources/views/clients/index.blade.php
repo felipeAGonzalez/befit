@@ -8,6 +8,7 @@
         <table class="table mt-4">
          <thead class="table-dark">
                 <tr>
+                    <th scope="col">Clave</th>
                     <th scope="col">Foto</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
@@ -22,6 +23,7 @@
             <tbody>
                 @foreach($clients as $client)
                     <tr>
+                        <td>{{ $client->id}}</td>
                         <td><img src="{{$client->photo ? asset($client->photo):asset('default/no-photo-m.png')}}" alt="Foto Cliente"></td>
                         <td>{{ $client->name}}</td>
                         <td>{{ $client->last_name}}</td>

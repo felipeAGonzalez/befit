@@ -84,6 +84,7 @@ Route::group(['middleware'=>['auth']],function () {
     Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
     Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
     Route::get('/sale/{id}', [SaleController::class, 'ticket'])->name('sales.ticket');
+    Route::get('/sale/{id}/show', [SaleController::class, 'show'])->name('sales.show');
 
     Route::resource('categories', CategoryController::class);
 

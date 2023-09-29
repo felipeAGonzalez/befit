@@ -9,7 +9,7 @@
                     <div class="card-body">
                     <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST">
                             @csrf
-                            @if(isset($subsidiary))
+                            @if(isset($category))
                                 @method('PUT')
                             @endif
 

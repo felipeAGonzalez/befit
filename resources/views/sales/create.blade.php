@@ -53,10 +53,25 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <form id="formularioVenta" action="{{ route('sales.store') }}" method="POST">
                 @csrf
+                <div class="form-group">
+                <label for="payment_type"><strong>Seleccione un método de pago:</strong></label>
+                <select name="payment_type" class="form-select" id="payment_type" required>
+                    <option value='' default>Seleccione una opción</option>
+                    <option value='cash'>Efectivo</option>
+                    <option value='card'>Tarjeta</option>
+                    <option value='mixed'>Mixto</option>
+                </select>
+            </div>
                 <input type="hidden" name="elementsSold" id="productsJSON">
+                <div style="display: none" class="from-group" id="mixed">
+                    <label for="mixed"><strong>Agrega la cantidad pagada en tarjeta</strong></label>
+                    <br>
+                    <input type="number" name="mixedInput" id="mixedInput">
+                </div>
+                <br>
                 <button type="submit" id="sendData" class="btn btn-primary">Realizar Cobro</button>
             </form>
         </div>
@@ -84,6 +99,22 @@
     div.style.display = 'block';
     divB.style.display = 'none';
 });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var payment_type = document.getElementById('payment_type');
+        var mixedInput = document.getElementById('mixed');
+        var input = document.getElementById('mixedInput');
+
+        payment_type.addEventListener('change', function() {
+            var selectedCategory = payment_type.value;
+            if (selectedCategory === 'mixed') {
+                mixedInput.style.display = 'block';
+                input.required = 'true';
+            }else{
+                mixedInput.style.display = 'none';
+            }
+        });
+    });
     $(document).ready(function() {
         function mostrarProductosEnTabla(elements) {
             const ListTable = document.getElementById('ListTable');

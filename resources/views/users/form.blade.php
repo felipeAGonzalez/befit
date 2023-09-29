@@ -22,14 +22,14 @@
                 </select>
             </div>
             <div class="form-group">
-                            <label for="shift">Seleccione un turno:</label>
-                            <select name="shift" class="form-select" id="shift">
-                                <option default>Seleccione una opción</option>
-                                <option value='none'>No aplica</option>
-                                <option value='Morning'>Matutino</option>
-                                <option value='Afternoon'>Vespertino</option>
-                            </select>
-                        </div>
+                <label for="shift">Seleccione un turno:</label>
+                <select name="shift" class="form-select" id="shift">
+                    <option default>Seleccione una opción</option>
+                    <option value='none'>No aplica</option>
+                    <option value='Morning'>Matutino</option>
+                    <option value='Afternoon'>Vespertino</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="position">Seleccione un cargo:</label>
                 <select name="position" class="form-select" id="position">

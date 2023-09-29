@@ -28,7 +28,7 @@ services:
     ports:
       - 8080:80
   laravel:
-    image: felipe89/php8.1:v1.1
+    image: php8.1
     networks:
       net_befit:
     depends_on:

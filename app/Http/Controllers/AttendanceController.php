@@ -25,7 +25,19 @@ class AttendanceController extends Controller
             $client = Client::where('id',$search);
         }
         $client = $client->first();
-
+        if (! $client) {
+            $error = ValidationException::withMessages(['Error' => 'Cliente no encontrado']);
+            throw $error;
+        }
+        if (! $client->clientDate->end_date) {
+            $error = ValidationException::withMessages(['Error' => 'Al cliente '.$client->name.' con clave '.$client->id.' aun no se le ha vendido un servicio']);
+            throw $error;
+        }
+        $days = date_diff(now(),$client->clientDate->end_date)->format('%R%a');
+        if ($days <= 0) {
+            $error = ValidationException::withMessages(['Error' => 'Servicio vencido. El cliente debe de renovar']);
+            throw $error;
+        }
         return view('attendance.index', compact('client'));
 
     }
@@ -44,9 +56,7 @@ class AttendanceController extends Controller
             throw $error;
         }
         if ($days < 2) {
-            // $error = ValidationException::withMessages(['Error' => 'Esta por vencer su periodo']);
             \Session::flash('message', 'Esta por vencer su periodo');
-
         }
 
        $client=[];

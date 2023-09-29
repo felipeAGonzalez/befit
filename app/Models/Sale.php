@@ -14,7 +14,7 @@ class Sale extends Model
         'sale_date' => 'date',
     ];
 
-    protected $fillable = ['client_id','sale_date','total','shift','subsidiary_id'];
+    protected $fillable = ['client_id','sale_date','total','shift','payment_type','total_card','subsidiary_id'];
 
     public function saleDetail()
     {
