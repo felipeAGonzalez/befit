@@ -18,6 +18,7 @@
                         <p><strong>Edad:</strong> {{ $client->birth_date->age }}</p>
                         <p><strong>Fecha de Ingreso:</strong> {{ $clientDate->date_entry->format('d/m/Y') }}</p>
                         <p><strong>Fecha de Antigüedad:</strong> {{ $clientDate->date_entry->age }}</p>
+                        <p><strong>Teléfono:</strong> {{ $client->phone_number }}</p>
                     </div>
                 </div>
             </div>
@@ -39,6 +40,7 @@
                         <p><strong>Edad:</strong> {{ $client->birth_date->age }}</p>
                         <p><strong>Fecha de Ingreso:</strong> {{ $clientDate->date_entry->format('d/m/Y') }}</p>
                         <p><strong>Fecha de Antigüedad:</strong> {{ $clientDate->date_entry->age }}</p>
+                        <p><strong>Teléfono:</strong> {{ $clientDate->phone_number }}</p>
                     </div>
                 </div>
             </div>

@@ -29,6 +29,7 @@ class ClientController extends Controller
                 'last_name' => 'required|string|max:255',
                 'last_name_two' => 'string|max:255',
                 'email' => 'nullable|email',
+                'phone_number' => 'nullable|numeric|digits:10',
                 'birth_date' => 'date',
                 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'date_entry' => 'required|date',

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('client', function (Blueprint $table) {
             $table->bigInteger('subsidiary_id')->unsigned()->index()->after('id')->comment = 'Identificador de la tabla subsidiary';
             $table->foreign('subsidiary_id')->references('id')->on('subsidiary');
-            $table->integer('phone_number')->after('email')->nullable();
+            $table->string('phone_number')->after('email')->nullable();
         });
     }
 

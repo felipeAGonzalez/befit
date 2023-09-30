@@ -33,6 +33,10 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+                <div class="form-group">
+                        <label for="phone_number">Teléfono:</label>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" value="{{ isset($client) ? $client->phone_number : old('phone_number') }}">
+                    </div>
                     <div class="form-group">
                         <label for="date_entry">Fecha de Ingreso:</label>
                         <input type="date" class="form-control" id="date_entry" name="date_entry" value="{{ isset($clientDate) ? $clientDate->date_entry->format('Y-m-d') : date('Y-m-d') }}">
