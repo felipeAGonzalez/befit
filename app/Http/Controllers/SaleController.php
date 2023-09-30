@@ -39,6 +39,13 @@ class SaleController extends Controller
         return response()->json($element);
     }
 
+    public function searchClient(Request $request)
+    {
+        $search = $request->all();
+        $client = client::where('id', $search)->with('clientDate')->first();
+        return response()->json($client);
+    }
+
     private function validateClient($object){
         if ($object) {
             $client = Client::where('id',$object['clientKey'])->first();
@@ -123,25 +130,20 @@ class SaleController extends Controller
         }
         if ($filtered) {
             $daysService = null;
+            $days = 0;
             $service = Service::where(['id'=>$filtered['id']])->first();
             if ($service->category == 'Paquete Por Visitas') {
                 $daysService = $service->days;
             }
             $clientDate = ClientDate::where(['client_id'=>$filtered['clientKey']])->first();
             $date = now();
-            if (! $clientDate->end_date) {
-                $endDate = $date->addDays($service->days)->format('Y-m-d');
-                $clientDate->start_date=$date;
-                $clientDate->end_date=$endDate;
-                $clientDate->days_service=$daysService;
-                $clientDate->save();
-            }else{
-                $endDate = $clientDate->end_date->addDays($service->days)->format('Y-m-d');
-                $clientDate->start_date = $date;
-                $clientDate->end_date = $endDate;
-                $clientDate->days_service = $daysService;
-                $clientDate->save();
+            if ($clientDate->end_date) {
+                $days = date_diff(now(),$clientDate->end_date)->format('%R%a');
             }
+            $endDate = ! $clientDate->end_date || $days <= 0 ? $date->addDays($service->days)->format('Y-m-d') : $clientDate->end_date->addDays($service->days)->format('Y-m-d');
+            $clientDate->end_date = $endDate;
+            $clientDate->days_service = $daysService;
+            $clientDate->save();
         }
         DB::commit();
         return redirect()->route('sales.ticket',['id' => $saleId]);
@@ -162,7 +164,6 @@ class SaleController extends Controller
     public function show(Request $request, $saleId){
         $sale = Sale::where('id',$saleId)->first();
         $saleDetails=SaleDetail::where('sale_id',$sale->id)->get();
-        \Log::info($sale);
         if ($sale->client_id) {
             $client=Client::where('id',$sale->client_id)->first();
             return view('sales.show', compact('sale','saleDetails','client'));

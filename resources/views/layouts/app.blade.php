@@ -36,10 +36,10 @@
                 <a class="nav-link active" href="{{ url('/sales') }}">Ventas<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/clients') }}">Clientes</a>
+                <a class="nav-link active" href="{{ url('/clients') }}">Clientes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/expenses') }}">Gastos</a>
+                <a class="nav-link active" href="{{ url('/expenses') }}">Gastos</a>
             </li>
         </ul>
         <li class="nav-item dropdown">
@@ -83,8 +83,6 @@
         @yield('content')
     </main>
 </body>
-
-
 <script>
     const $dropdown = $(".dropdown");
     const $dropdownToggle = $(".dropdown-toggle");

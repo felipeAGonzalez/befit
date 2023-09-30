@@ -10,10 +10,36 @@
                 <input type="text" id="seeker" name="seeker" class="form-control" placeholder="Buscar por Código de Barras">
         </div>
     </div>
+    <div class="row mt-4" id="assignButton">
+                    <div class="col-md-6">
+                        <button id="showClient" class="btn btn-info">Asignar a Cliente</button>
+                    </div>
+                </div>
 
+                <div class="row mt-4" id="assignClient" style="display: none;">
+                    <div class="col-md-3">
+                        <label><strong>Asignar la venta a un cliente</strong></label><br>
+                        <input type="text" class="form-control client-key"  id="inputClient" placeholder="Clave del cliente">
+                    <br>
+                    </div>
+                    <div class="col-md-6">
+                    <table class="table">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Foto</th>
+                                <th>Clave</th>
+                                <th>Nombre</th>
+                                <th>Fecha de Vencimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody id = clientTable name = tbodyClient>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <br>
     <div class="row mt-4">
         <div class="col-md-12">
-            <!-- Tabla de Lista de Compra -->
             <table class="table table-bordered">
                  <thead class="table-dark">
                     <tr>
@@ -25,19 +51,7 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <div class="row mt-4" id="assignButton">
-                    <div class="col-md-6">
-                        <button id="showClient" class="btn btn-info">Asignar a Cliente</button>
-                    </div>
-                </div>
 
-                <div class="row mt-4" id="assignClient" style="display: none;">
-                    <div class="col-md-6">
-                        <label><strong>Asignar la venta a un cliente</strong></label><br>
-                        <input type="text" class="form-control client-key"  id="inputClient" placeholder="Clave del cliente">
-                    </div>
-                </div>
-                <br>
                 <tbody id="ListTable">
                 </tbody>
                 <tfoot>
@@ -53,7 +67,7 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-6">
+        <div class="col-md-3">
             <form id="formularioVenta" action="{{ route('sales.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
@@ -99,6 +113,52 @@
     div.style.display = 'block';
     divB.style.display = 'none';
 });
+
+    $(document).ready(function() {
+        $('#inputClient').on('keydown', function(event) {
+            const key = $(this).val();
+
+            if (event.key === "Enter") {
+                $.ajax({
+                    url: '{{ route('client.search') }}',
+                    method: 'GET',
+                    data: { key: key },
+                    success: function(response) {
+                        if (Object.keys(response).length == 0) {
+                            notFoundClient();
+                            return;
+                        }else{
+                            fillTableWithData(response);
+                        }
+                    },
+                    error: function() {
+                        console.log('Error al buscar productos');
+                    }
+                });
+            }
+        });
+        function notFoundClient() {
+            $('#mensajeNoEncontrado').text('Cliente no encontrado').fadeIn().delay(2000).fadeOut();
+        }
+        function fillTableWithData(clientData) {
+            const table = document.getElementById('clientTable').getElementsByTagName('tbodyClient')[0];
+            const rowClient = document.createElement('tr');
+            const date = clientData.client_date.end_date;
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formatDate = new Date(date).toLocaleDateString(undefined, options);
+                rowClient.innerHTML = `
+            <tr>
+                <td>
+                    <img src="${clientData.photo}" alt="Foto" class="figure-img img-fluid rounded" style="max-width: 100px;">
+                </td>
+                <td>${clientData.id}</td>
+                <td>${clientData.name}</td>
+                <td>${formatDate}</td>
+            </tr>
+            `;
+            clientTable.appendChild(rowClient);
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         var payment_type = document.getElementById('payment_type');

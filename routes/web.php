@@ -83,6 +83,7 @@ Route::group(['middleware'=>['auth']],function () {
     Route::get('/sales/new', [SaleController::class, 'create'])->name('sales.create');
     Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
     Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
+    Route::get('/client/search', [SaleController::class,'searchClient'])->name('client.search');
     Route::get('/sale/{id}', [SaleController::class, 'ticket'])->name('sales.ticket');
     Route::get('/sale/{id}/show', [SaleController::class, 'show'])->name('sales.show');
 

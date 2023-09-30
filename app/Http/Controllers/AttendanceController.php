@@ -35,8 +35,7 @@ class AttendanceController extends Controller
         }
         $days = date_diff(now(),$client->clientDate->end_date)->format('%R%a');
         if ($days <= 0) {
-            $error = ValidationException::withMessages(['Error' => 'Servicio vencido. El cliente debe de renovar']);
-            throw $error;
+            \Session::flash('message', 'Servicio vencido. El cliente debe de renovar');
         }
         return view('attendance.index', compact('client'));
 
