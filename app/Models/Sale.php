@@ -18,7 +18,7 @@ class Sale extends Model
 
     public function saleDetail()
     {
-        return $this->hasOne('App\Models\SaleDetail', 'sale_id');
+        return $this->hasMany('App\Models\SaleDetail', 'sale_id');
     }
 
     public function subsidiary()

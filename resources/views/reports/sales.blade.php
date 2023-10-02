@@ -10,6 +10,9 @@
                 <button type="submit" class="btn btn-primary">Filtrar</button>
             </div>
         </form>
+        <div class="col-md-3">
+        <a href="{{ route('sales.excel') }}" class="btn btn-success">Excel</a>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <h3>Gastos</h3>
@@ -88,7 +91,9 @@
             </div>
         </div>
     </div>
-
+    <div class="input-group col-md-3">
+    <span><strong><label for="gains">Utilidad: </label></strong> $ {{number_format($salesTotal-$expensesTotal,2)}}</span>
+    </div>
     <div class="container">
         <div id="salesExpensesChart" style="width: 100%; height: 600px;"></div>
     </div>

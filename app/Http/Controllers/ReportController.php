@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SalesExport;
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\Subsidiary;
@@ -29,7 +31,12 @@ class ReportController extends Controller
         $expenses = $expenses->paginate(10);
         return view('reports.sales', compact('sales','expenses','salesTotal','expensesTotal'));
     }
-
+    public function salesExcel(Request $request)
+    {
+        $date = $request->query('date');
+        $today = date('Y-m-d');
+        return Excel::download(new SalesExport($date), $today.'SalesReport.xlsx');
+    }
     public function subsidiaryReport(Request $request)
     {
         $date = $request->query('date');
