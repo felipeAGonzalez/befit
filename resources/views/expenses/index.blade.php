@@ -11,7 +11,9 @@
                 <th>Turno</th>
                 <th>Nombre Gasto</th>
                 <th>Monto</th>
+                @if (auth()->user()->position == 'ROOT' || auth()->user()->position == 'DIRECTIVE' || auth()->user()->position == 'MANAGER')
                 <th>Acciones</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -22,10 +24,12 @@
                     <td>{{ $expense->shift }}</td>
                     <td>{{ $expense->name }}</td>
                     <td>{{ $expense->amount }}</td>
+                    @if (auth()->user()->position == 'ROOT' || auth()->user()->position == 'DIRECTIVE' || auth()->user()->position == 'MANAGER')
                     <td>
                         <a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-sm btn-warning">Editar</a>
                         <a href="{{ route('expenses.delete', $expense->id) }}" class="btn btn-sm btn-danger">Eliminar</a>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

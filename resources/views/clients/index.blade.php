@@ -33,13 +33,15 @@
                         <td>{{ $client->clientDate->date_entry->format('d-m-Y')}}</td>
                         <td>{{ $client->clientDate->end_date?$client->clientDate->end_date->format('d-m-Y'):'Sin datos'}}</td>
                         <td>
-                        <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">Ver</a>
+                            <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">Ver</a>
+                            @if (auth()->user()->position == 'ROOT' || auth()->user()->position == 'DIRECTIVE')
                             <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Editar</a>
                             <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este Cliente?')">Eliminar</button>
                             </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
