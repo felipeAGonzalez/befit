@@ -12,11 +12,11 @@
     </style>
 <body>
     <div class="ticket">
-        <img class = ticket-image src="{{asset($subsidiary->logo)}}" alt="Logo" class="img-fluid">
+        <img class = ticket-image src="{{asset($sale->subsidiary->logo)}}" alt="Logo" class="img-fluid">
         <label><strong>Befit Sport Gym</strong></label>
-        <p>{{$subsidiary->address }}</p>
-        <p>{{$subsidiary->zip_code }}</p>
-        <p>{{$subsidiary->phone_number }}</p>
+        <p>{{$sale->subsidiary->address }}</p>
+        <p>{{$sale->subsidiary->zip_code }}</p>
+        <p>{{$sale->subsidiary->phone_number }}</p>
         <p>Fecha: {{ $sale->sale_date }}</p>
         @if(isset($client))
         <p>Nombre del cliente: </p>

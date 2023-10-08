@@ -3,7 +3,17 @@
 @section('content')
     <div class="container">
         <h2>Listado de Clientes</h2>
+        <div class="row">
+        <div class="col-md-6">
         <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Dar de Alta Cliente</a>
+                <form action="{{ route('clients.search') }}" method="GET" class="mb-3">
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" placeholder="Buscar por clave o por nombre">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </form>
+        </div>
+        </div>
         <div class="table-responsive">
         <table class="table mt-4">
          <thead class="table-dark">
@@ -34,6 +44,7 @@
                         <td>{{ $client->clientDate->end_date?$client->clientDate->end_date->format('d-m-Y'):'Sin datos'}}</td>
                         <td>
                             <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">Ver</a>
+                            <a href="{{ route('clients.show.photo', $client->id) }}" class="btn btn-success">Agregar Foto</a>
                             @if (auth()->user()->position == 'ROOT' || auth()->user()->position == 'DIRECTIVE')
                             <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Editar</a>
                             <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display: inline-block;">

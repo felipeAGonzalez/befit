@@ -62,7 +62,6 @@ Route::group(['middleware'=>['auth']],function () {
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
         // Rutas para listar y crear productos
-        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
         Route::post('/products', [ProductController::class, 'store'])->name('products.store');
         Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -71,6 +70,7 @@ Route::group(['middleware'=>['auth']],function () {
         Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
         Route::get('/products/{id}/addShow', [ProductController::class, 'showAdd'])->name('products.addShow');
         Route::patch('/products/{id}/add', [ProductController::class, 'add'])->name('products.add');
+        Route::get('/product/search', [ProductController::class,'searchProductBySubsidiary'])->name('products.search');
 
         Route::resource('services', ServiceController::class)->except(['show']);
         Route::resource('categories', CategoryController::class);
@@ -81,21 +81,26 @@ Route::group(['middleware'=>['auth']],function () {
         Route::get('/subsidiaries/{subsidiary}/edit', [SubsidiaryController::class, 'edit'])->name('subsidiaries.edit');
         Route::put('/subsidiaries/{subsidiary}', [SubsidiaryController::class, 'update'])->name('subsidiaries.update');
         Route::delete('/subsidiaries/{subsidiary}', [SubsidiaryController::class, 'destroy'])->name('subsidiaries.destroy');
+
+        Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+        Route::put('/clients/{id}', [ClientController::class, 'update'])->name('clients.update');
+        Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
     });
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
-
-    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+    Route::get('/clients/search', [ClientController::class,'search'])->name('clients.search');
     Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
     Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/{id}', [ClientController::class, 'show'])->name('clients.show');
-    Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->name('clients.edit');
-    Route::put('/clients/{id}', [ClientController::class, 'update'])->name('clients.update');
-    Route::delete('/clients/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
+    Route::patch('/clients/{id}/photo', [ClientController::class, 'photo'])->name('clients.photo');
+    Route::get('/clients/photo/{id}', [ClientController::class, 'showPhoto'])->name('clients.show.photo');
 
 
     Route::get('/sales', [SaleController::class, 'index'])->name('sales.index');
     Route::get('/sales/new', [SaleController::class, 'create'])->name('sales.create');
     Route::post('/sales', [SaleController::class,'store'])->name('sales.store');
+    Route::get('/sale/search', [SaleController::class,'searchSale'])->name('sale.search');
     Route::get('/element/search', [SaleController::class,'search'])->name('element.search');
     Route::get('/client/search', [SaleController::class,'searchClient'])->name('client.search');
     Route::get('/sale/{id}', [SaleController::class, 'ticket'])->name('sales.ticket');

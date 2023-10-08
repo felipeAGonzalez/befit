@@ -19,10 +19,27 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $sales = Sale::where(['subsidiary_id' => Auth::user()->subsidiary_id])->orderByDesc('id')->paginate(10);
-        return view('sales.index', compact('sales'));
-    }
+        $subsidiary = Subsidiary::all();
 
+        if (Auth::user()->position == 'ROOT' || Auth::user()->position == 'DIRECTIVE') {
+            $sales = Sale::query()->orderByDesc('id')->paginate(10);
+            return view('sales.index', compact('sales','subsidiary'));
+        }
+        $sales = Sale::where(['subsidiary_id' => Auth::user()->subsidiary_id])->orderByDesc('id')->paginate(10);
+        return view('sales.index', compact('sales','subsidiary'));
+
+    }
+    public function searchSale(Request $request)
+    {
+        $search = $request->all();
+        if ($search['subsidiary_id'] != null) {
+            $sales = Sale::where(['subsidiary_id' => $search['subsidiary_id']])->orderByDesc('id')->paginate(10);
+            $subsidiary = Subsidiary::all();
+            return view('sales.index', compact('sales','subsidiary'));
+        }
+        return redirect()->route('sales.index');
+
+    }
     public function create()
     {
         return view('sales.create');
@@ -30,7 +47,7 @@ class SaleController extends Controller
     public function search(Request $request)
     {
         $search = $request->all();
-        $element = Product::where('key', $search)->first();
+        $element = Product::where('key', $search)->orWhere('name',$search)->first();
         if ($element) {
             $element = SubsidiaryProduct::where(['subsidiary_id' => Auth::user()->subsidiary_id,'product_id'=>$element->id])->with(SubsidiaryProduct::PRODUCTS)->get();
             return response()->json($element);
@@ -150,16 +167,14 @@ class SaleController extends Controller
     }
 
     public function ticket(Request $request, $saleId){
-        $user = Auth::user();
-        $subsidiary = Subsidiary::where('id',$user->subsidiary_id)->first();
         $sale = Sale::where('id',$saleId)->first();
         $saleDetails=SaleDetail::where('sale_id',$sale->id)->get();
         if ($sale->client_id) {
             $client=Client::where('id',$sale->client_id)->first();
-            return view('sales.ticket', compact('sale','saleDetails','subsidiary','client'));
+            return view('sales.ticket', compact('sale','saleDetails','client'));
         }
 
-        return view('sales.ticket', compact('sale','saleDetails','subsidiary'));
+        return view('sales.ticket', compact('sale','saleDetails'));
     }
     public function show(Request $request, $saleId){
         $sale = Sale::where('id',$saleId)->first();

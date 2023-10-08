@@ -27,10 +27,10 @@ class ClientController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'last_name_two' => 'string|max:255',
+                'last_name_two' => 'nullable|string|max:255',
                 'email' => 'nullable|email',
-                'phone_number' => 'nullable|numeric|digits:10',
-                'birth_date' => 'date',
+                'phone_number' => 'required|numeric|digits:10',
+                'birth_date' => 'nullable|date',
                 'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'date_entry' => 'required|date',
             ]);
@@ -50,6 +50,21 @@ class ClientController extends Controller
                     break;
             }
         }
+    }
+    public function search(Request $request){
+        \Log::info("ss");
+        $search = $request->query('search');
+        $clients = Client::query();
+
+        if ($search ?? false) {
+            $clients = Client::where('id',$search)->orWhere('name','LIKE','%'.$search.'%')->orWhere('last_name','LIKE','%'.$search.'%')->orWhere('last_name_two','LIKE','%'.$search.'%');
+        }
+        $clients = $clients->paginate(10);
+        if (! $clients) {
+            $error = ValidationException::withMessages(['Error' => 'Cliente no encontrado']);
+            throw $error;
+        }
+        return view('clients.index', compact('clients'));
     }
 
     public function show($id)
@@ -98,5 +113,26 @@ class ClientController extends Controller
         $client->delete();
         Utils::deleteImage($client->photo);
         return redirect()->route('clients.index')->with('success', 'Cliente eliminado exitosamente');
+    }
+    public function showPhoto($id)
+    {
+        $client = Client::findOrFail($id);
+
+        return view('clients.photo', compact('client'));
+    }
+    public function photo(Request $request,$id)
+    {
+        $request->validate([
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $query=$request->all();
+        $client = Client::findOrFail($id);
+        if ($request->hasFile('photo')) {
+            Utils::deleteImage($client->photo);
+            $query['photo'] = Utils::saveImage($request->file('photo'));
+        }
+        $client->update($query);
+
+        return redirect()->route('clients.show',$client->id)->with('success', 'Cliente actualizado exitosamente');
     }
 }

@@ -8,7 +8,6 @@ class CheckRole
 {
     public function handle($request, Closure $next, ...$positions)
     {
-        // Verifica si el usuario tiene el rol permitido para acceder a la ruta
         if ($request->user() && ! in_array($request->user()->position ,$positions)) {
             return redirect('/welcome')->with('error', 'No tienes permiso para acceder a esta ruta.');
         }

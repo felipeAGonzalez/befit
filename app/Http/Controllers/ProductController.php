@@ -15,8 +15,23 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $subsidiary = Subsidiary::all();
+        if (Auth::user()->position == 'ROOT' || Auth::user()->position == 'DIRECTIVE') {
+        $subsidiaryProducts = SubsidiaryProduct::query()->paginate(10);
+        return view('products.index', compact('subsidiaryProducts','subsidiary'));
+
+        }
         $subsidiaryProducts = SubsidiaryProduct::where('subsidiary_id', Auth::user()->subsidiary_id)->paginate(10);
-        return view('products.index', compact('subsidiaryProducts'));
+        return view('products.index', compact('subsidiaryProducts','subsidiary'));
+    }
+    public function searchProductBySubsidiary(Request $request){
+        $subsidiary = Subsidiary::all();
+        $search = $request->all();
+        if ($search['subsidiary_id'] != null) {
+            $subsidiaryProducts = SubsidiaryProduct::where(['subsidiary_id' => $search['subsidiary_id']])->paginate(10);
+            return view('products.index', compact('subsidiaryProducts','subsidiary'));
+        }
+        return redirect()->route('products.index');
     }
 
     public function create()

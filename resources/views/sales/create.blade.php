@@ -149,7 +149,7 @@
                 rowClient.innerHTML = `
             <tr>
                 <td>
-                    <img src="${clientData.photo}" alt="Foto" class="figure-img img-fluid rounded" style="max-width: 100px;">
+                    <img src="${clientData.photo ? clientData.photo : '/default/no-photo-m.png' }" alt="Foto" class="figure-img img-fluid rounded" style="max-width: 100px;">
                 </td>
                 <td>${clientData.id}</td>
                 <td>${clientData.name}</td>
