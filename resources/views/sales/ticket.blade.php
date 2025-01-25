@@ -11,8 +11,8 @@
         }
     </style>
 <body>
+    <img class = ticket-image src="{{asset($sale->subsidiary->logo)}}" alt="Logo" class="img-fluid">
     <div class="ticket">
-        <img class = ticket-image src="{{asset($sale->subsidiary->logo)}}" alt="Logo" class="img-fluid">
         <label><strong>Befit Sport Gym</strong></label>
         <p>{{$sale->subsidiary->address }}</p>
         <p>{{$sale->subsidiary->zip_code }}</p>
@@ -21,6 +21,8 @@
         @if(isset($client))
         <p>Nombre del cliente: </p>
         <p>{{$client->name.' '.$client->last_name.' '.$client->last_name_two}}</p>
+        <p>Clave: </p>
+        <p>{{$client->id}}</p>
         @endif
         <p>Tipo de Pago: {{ __('web.'.$sale->payment_type) }}</p>
         <table>
@@ -78,7 +80,10 @@
         document.getElementById('printButton').addEventListener('click', function() {
             var ticketContents = document.querySelector('.ticket').innerHTML;
             var printWindow = window.open('', '_blank', 'width=600,height=600');
+            const logoURL = "{{ asset($sale->subsidiary->logo) }}";
             printWindow.document.open();
+            printWindow.document.write(`<img src="${logoURL}" alt="Logo" style="max-width: 175px;"/>`);
+            printWindow.document.write(`<br>`);
             printWindow.document.write('<html><head><title>Ticket de Compra</title></head><body>');
             printWindow.document.write(ticketContents);
             printWindow.document.write('</body></html>');

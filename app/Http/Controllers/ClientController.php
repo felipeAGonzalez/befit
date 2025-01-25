@@ -31,7 +31,7 @@ class ClientController extends Controller
                 'email' => 'nullable|email',
                 'phone_number' => 'required|numeric|digits:10',
                 'birth_date' => 'nullable|date',
-                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:15360',
                 'date_entry' => 'required|date',
             ]);
             $client=$request->all();
@@ -52,7 +52,6 @@ class ClientController extends Controller
         }
     }
     public function search(Request $request){
-        \Log::info("ss");
         $search = $request->query('search');
         $clients = Client::query();
 
@@ -89,7 +88,7 @@ class ClientController extends Controller
             'last_name_two' => 'nullable|string|max:255',
             'email' => 'nullable|email',
             'birth_date' => 'nullable|date',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:15360',
             'date_entry' => 'nullable|date',
         ]);
         $query=$request->all();
@@ -123,7 +122,7 @@ class ClientController extends Controller
     public function photo(Request $request,$id)
     {
         $request->validate([
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:15360',
         ]);
         $query=$request->all();
         $client = Client::findOrFail($id);

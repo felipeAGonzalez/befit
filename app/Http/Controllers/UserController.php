@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use App\Models\Subsidiary;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -42,9 +44,8 @@ class UserController extends Controller
             'subsidiary_id' => 'required',
             'shift' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
         ]);
-        $user = User::create($request->all());
+        $user = User::create(array_merge($request->all(),['password'=>'befit','need_change' => true]));
         if (! $user) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -65,7 +66,6 @@ class UserController extends Controller
             'name' => 'nullable',
             'shift' => 'nullable',
             'email' => 'nullable|email|unique:users,email,' . $id,
-            'password' => 'nullable|min:6',
         ]);
         $data=$request->all();
         $data = array_filter($data, function ($value) {
@@ -81,5 +81,32 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('users.index');
+    }
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password',
+        ]);
+
+        $user = User::findOrFail($request->all()['user_id']);
+        $user->password = Hash::make($request->password);
+        $user->need_change = false;
+        $user->save();
+        return redirect('/welcome');
+    }
+
+    public function resetPassword($id){
+
+        $user = User::findOrFail($id);
+        if ($user->position == 'ROOT') {
+            $error = ValidationException::withMessages(['Error' => 'No tiene permisos para reiniciar la contraseña del usuario root']);
+            throw $error;
+        }
+        $user->password = Hash::make('befit');
+        $user->need_change = true;
+        $user->save();
+        return redirect()->route('users.index')->with('success', 'Contraseña reiniciada correctamente');
     }
 }

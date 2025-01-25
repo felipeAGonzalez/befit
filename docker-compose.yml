@@ -10,8 +10,9 @@ services:
       - db:/bitnami/mysql/data
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-u", "root", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      interval: 10s
+      retries: 3
+      timeout: 10s
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_ROOT_PASSWORD=

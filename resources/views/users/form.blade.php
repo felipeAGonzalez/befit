@@ -17,36 +17,32 @@
             <select name="subsidiary_id" class="form-select" id="subsidiary_id">
                 <option value="" default>Seleccione una opción</option>
                     @foreach($subsidiary as $key => $value)
-                        <option value="{{ isset($user) ? $user->subsidiary->name : $value->id }}">{{ $value->name }}</option>
+                        <option value="{{ $value->id }}" {{ isset($user) && $user->subsidiary->id == $value->id  ? 'selected' : $value->id }}>{{ $value->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="shift">Seleccione un turno:</label>
                 <select name="shift" class="form-select" id="shift">
-                    <option default>Seleccione una opción</option>
-                    <option value='none'>No aplica</option>
-                    <option value='Morning'>Matutino</option>
-                    <option value='Afternoon'>Vespertino</option>
+                    <option value="none" {{ $user->shift === 'none' ? 'selected' : '' }}>No aplica</option>
+                    <option value='Morning' {{ $user->shift === 'Morning' ? 'selected' : '' }}>Matutino</option>
+                    <option value='Afternoon' {{ $user->shift === 'Afternoon' ? 'selected' : '' }}>Vespertino</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="position">Seleccione un cargo:</label>
                 <select name="position" class="form-select" id="position">
-                <option value=""default>Seleccione una opción</option>
-                        @foreach($position as $key => $value)
-                            <option value="{{ isset($user) ? $user->position : $key }}">{{ $value }}</option>
-                        @endforeach
-                    </select>
+                    <option value="" disabled>Seleccione una opción</option>
+                    @foreach($position as $key => $value)
+                        <option value="{{ $key }}" {{ isset($user) && $user->position == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email', isset($user) ? $user->email : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" name="password" id="password" class="form-control" value="">
             </div>
             <button type="submit" class="btn btn-primary">{{ isset($user) ? 'Actualizar' : 'Guardar' }}</button>
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>

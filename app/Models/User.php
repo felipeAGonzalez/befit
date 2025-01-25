@@ -23,6 +23,7 @@ class User extends Authenticatable
         'position',
         'shift',
         'email',
+        'need_change',
         'password',
     ];
 

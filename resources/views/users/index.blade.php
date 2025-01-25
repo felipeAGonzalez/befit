@@ -31,6 +31,10 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
+                        <form action="{{ route('password.reset', $user->id) }}" method="POST" style="display: inline">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Reinicio de contraseña</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
@@ -50,4 +54,13 @@
         {{ session('success') }}
     </div>
 @endif
+@if ($errors->any())
+                <div class="alert2 alert2-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ __($error) }}<br></li>
+                        @endforeach
+                        </ul>
+                    </div>
+            @endif
 @endsection

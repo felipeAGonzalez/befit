@@ -30,9 +30,6 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm'
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/reset/password', [Reset::class, 'showResetForm'])->name('password.reset');
-Route::post('/reset/password', [Reset::class, 'reset']);
-
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', function () {
         if (Auth::check()) {
@@ -47,8 +44,6 @@ Route::group(['middleware'=>['auth']],function () {
                 Route::get('/welcome', function () {
                             return view('welcome');
                         })->name('welcome');
-
-    //rutas usuario
 
 
     Route::group(['middleware' => 'position:ROOT,DIRECTIVE'], function () {
@@ -128,5 +123,7 @@ Route::group(['middleware'=>['auth']],function () {
 
     Route::get('/reports/sales/excel', [ReportController::class, 'salesExcel'])->name('sales.excel');
 
-
+    Route::match(['get', 'post'],'password/view', [LoginController::class, 'password'])->name('password.view');
+    Route::post('password/reset', [UserController::class, 'changePassword'])->name('password.update');
+    Route::post('password/reset/{id}', [UserController::class, 'resetPassword'])->name('password.reset');
 });
